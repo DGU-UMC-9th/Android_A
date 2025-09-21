@@ -1,5 +1,6 @@
 package com.example.week1
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
@@ -26,12 +27,15 @@ class MainActivity : AppCompatActivity() {
         val duration = Toast.LENGTH_SHORT
         val toast = Toast.makeText(this, text, duration)
 
+        val intent = Intent(this, MainActivity2::class.java)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.joyImage.setOnClickListener {
             binding.joyText.setTextColor(Color.YELLOW)
             toast.show()
+            startActivity(intent)
         }
 
         binding.exitedImage.setOnClickListener {
