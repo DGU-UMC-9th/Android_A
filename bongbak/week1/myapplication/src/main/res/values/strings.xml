@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="emotion_prompt">오늘 하루는 어땠나요?\n감정우표를 선택해주세요</string>
+    <string name="emotion_happy">더없이 행복한 하루였어요</string>
+    <string name="emotion_excited">들뜨고 흥분돼요</string>
+    <string name="emotion_normal">평범한 하루였어요</string>
+    <string name="emotion_anxious">생각이 많아지고 불안해요</string>
+    <!-- TODO: 녹색 얼굴에 대한 실제 감정 텍스트를 추가하세요 -->
+    <string name="emotion_placeholder">감정 설명</string>
+</resources>
