@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.rkdgudrn4094.week2"
+    namespace = "com.rkdgudrn4094.myapplication"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.rkdgudrn4094.week2"
+        applicationId = "com.rkdgudrn4094.myapplication"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -25,9 +25,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    buildFeatures {
-        viewBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
