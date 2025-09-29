@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:id="@+id/home_background_iv"
+        android:src="@drawable/img_first_album_default"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/home_setting_iv"
+        android:src="@drawable/btn_main_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/home_ticket_iv"
+        android:src="@drawable/btn_main_ticket"
+        app:layout_constraintEnd_toStartOf="@id/home_setting_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/home_mike_iv"
+        android:src="@drawable/btn_main_mike"
+        app:layout_constraintEnd_toStartOf="@id/home_ticket_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_title_tv"
+        android:text="달밤의 감성 산책"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="30dp"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/home_play_iv"
+        android:src="@drawable/btn_panel_play_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="80dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_date_tv"
+        android:text="총 10곡 2025.09.29"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/home_title_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="30dp"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/home_album_iv"
+        android:src="@drawable/img_album_exp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_date_tv"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_album_title_tv"
+        android:text="Butter"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/home_album_iv"
+        app:layout_constraintTop_toBottomOf="@id/home_date_tv"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_album_singer_tv"
+        android:text="BTS(방탄소년단)"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/home_album_iv"
+        app:layout_constraintTop_toBottomOf="@id/home_album_title_tv"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_today_tv"
+        android:text="오늘의 발매 음악"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/home_background_iv"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/home_today_arrow_iv"
+        android:src="@drawable/btn_arrow_more"
+        app:layout_constraintTop_toBottomOf="@id/home_background_iv"
+        app:layout_constraintStart_toEndOf="@id/home_today_tv"
+        android:layout_marginTop="30dp"/>
+
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:id="@+id/home_today_album_iv"
+        android:src="@drawable/img_album_exp2"
+        app:layout_constraintTop_toBottomOf="@id/home_today_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_today_album_title_tv"
+        android:text="LILAC"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/home_today_album_iv"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_today_album_singer_tv"
+        android:text="IU(아이유)"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/home_today_album_title_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
