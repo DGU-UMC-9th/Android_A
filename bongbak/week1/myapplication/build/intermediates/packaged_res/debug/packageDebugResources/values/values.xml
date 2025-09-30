@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <string name="app_name">My Application</string>
+    <string name="emotion_anxious">생각이 많아지고 불안해요</string>
+    <string name="emotion_excited">들뜨고 흥분돼요</string>
+    <string name="emotion_happy">더없이 행복한 하루였어요</string>
+    <string name="emotion_normal">평범한 하루였어요</string>
+    <string name="emotion_placeholder">감정 설명</string>
+    <string name="emotion_prompt">오늘 하루는 어땠나요?\n감정우표를 선택해주세요</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_home">Home</string>
+    <string name="title_notifications">Notifications</string>
+    <style name="Theme.Week1" parent="Theme.AppCompat.Light.DarkActionBar">
+        
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
+        
+    </style>
+</resources>
