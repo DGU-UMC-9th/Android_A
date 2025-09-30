@@ -1,5 +1,6 @@
 package com.example.imreallystupid
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,19 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+
+        binding.homeTodayAlbumIv.setOnClickListener {
+            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_fragmentContainer,
+                AlbumFragment()).commitAllowingStateLoss()
+
+            val song = Song(binding.homeTodayAlbumTitleTv.text.toString(),binding.homeTodayAlbumSingerTv.text.toString())
+            val sendData = Bundle().also {
+                it.putString("title",song.title)
+                it.putString("singer",song.singer)
+            }
+
+        }
 
         return binding.root
     }
