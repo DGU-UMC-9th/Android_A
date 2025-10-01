@@ -40,6 +40,11 @@ class AlbumFragment/*(var title:String, var singer: String)*/ : Fragment() {
         val albumFragment = AlbumFragment()
         albumFragment.arguments = sendData*/
 
+        childFragmentManager.setFragmentResultListener("changeAlbumImage", this){_, bundle ->
+            val imgRes = bundle.getInt("imgRes")
+            binding.albumAlbumIv.setImageResource(imgRes)
+        }
+
 
         val albumAdapter = AlbumVPAdapter(this)
         val bundle = Bundle().apply{
@@ -54,5 +59,9 @@ class AlbumFragment/*(var title:String, var singer: String)*/ : Fragment() {
         }.attach()
 
         return binding.root
+    }
+
+    fun changeImage(imgRes:Int){
+        binding.albumAlbumIv.setImageResource(imgRes)
     }
 }
