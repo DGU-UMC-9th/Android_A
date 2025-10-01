@@ -10,7 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rkdgudrn4094.week2.databinding.FragmentAlbumBinding
 
-class AlbumFragment : Fragment() {
+class AlbumFragment/*(var title:String, var singer: String)*/ : Fragment() {
     lateinit var binding: FragmentAlbumBinding
     private val information = arrayListOf("수록곡", "상세정보", "영상")
 
@@ -32,8 +32,21 @@ class AlbumFragment : Fragment() {
         binding.albumMusicTitleTv.text=arguments?.getString("title")
         binding.albumSingerNameTv.text=arguments?.getString("singer")
 
+        /*
+        val sendData = Bundle().apply{
+            putString("title", binding.albumMusicTitleTv.text.toString())
+            putString("singer", binding.albumSingerNameTv.text.toString())
+        }
+        val albumFragment = AlbumFragment()
+        albumFragment.arguments = sendData*/
+
 
         val albumAdapter = AlbumVPAdapter(this)
+        val bundle = Bundle().apply{
+            putString("title", binding.albumMusicTitleTv.text.toString())
+            putString("singer", binding.albumSingerNameTv.text.toString())
+        }
+        albumAdapter.sendData(bundle)
         binding.albumContentVp.adapter = albumAdapter
         TabLayoutMediator(binding.albumContentTb, binding.albumContentVp){
             tab, position ->
