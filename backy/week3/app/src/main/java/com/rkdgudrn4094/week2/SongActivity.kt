@@ -32,6 +32,22 @@ class SongActivity : AppCompatActivity() {
         binding.songPauseIv.setOnClickListener {
             setPlayerStatus(true)
         }
+
+        binding.songRepeatIv.setOnClickListener {
+            setVisibility(binding.songRepeatActiveIv, binding.songRepeatIv)
+        }
+        binding.songRepeatActiveIv.setOnClickListener {
+            setVisibility(binding.songRepeatIv, binding.songRepeatActiveIv)
+        }
+
+        binding.songRandomIv.setOnClickListener {
+            setVisibility(binding.songRandomActiveIv, binding.songRandomIv)
+        }
+        binding.songRandomActiveIv.setOnClickListener {
+            setVisibility(binding.songRandomIv, binding.songRandomActiveIv)
+        }
+
+
         if (intent.hasExtra("title") && intent.hasExtra("singer")){
             binding.songMusicTitleTv.text=intent.getStringExtra("title")
             binding.songSingerNameTv.text=intent.getStringExtra("singer")
@@ -47,5 +63,20 @@ class SongActivity : AppCompatActivity() {
             binding.songMiniplayerIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
         }
+    }
+
+    fun setVisibility(/*isPlaying: Boolean, */iv_Visible: android.widget.ImageView, iv_Gone: android.widget.ImageView){
+        iv_Visible.visibility=View.VISIBLE
+        iv_Gone.visibility=View.GONE
+
+        /*if (isPlaying){
+            iv1.visibility=View.VISIBLE
+            iv2.visibility=View.GONE
+        }
+
+        else{
+            iv1.visibility=View.GONE
+            iv2.visibility=View.VISIBLE
+        }*/
     }
 }
