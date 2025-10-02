@@ -348,16 +348,27 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/home_banner_vp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:adjustViewBounds="true"-->
+<!--            android:src="@drawable/img_home_viewpager_exp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/home_today_music_oversea_hs"/>-->
+
+        <androidx.viewpager2.widget.ViewPager2
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/home_banner_vp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/img_home_viewpager_exp"
+            android:layout_height="1000dp"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_today_music_oversea_hs"/>
+            app:layout_constraintTop_toBottomOf="@id/home_today_music_oversea_hs"
+            />
 
         <TextView
             android:id="@+id/home_daily_music_title_tv"
