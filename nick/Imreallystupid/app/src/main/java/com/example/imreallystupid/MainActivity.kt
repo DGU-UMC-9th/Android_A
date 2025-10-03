@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, reply, Toast.LENGTH_SHORT).show()
             }
         }
-
         val intent = Intent(this, SongActivity::class.java)
 
         val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString())

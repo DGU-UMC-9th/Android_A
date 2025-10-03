@@ -24,9 +24,6 @@ class HomeFragment : Fragment() {
 
 
         binding.homeTodayAlbumIv.setOnClickListener {
-            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_fragmentContainer,
-                AlbumFragment()).commitAllowingStateLoss()
-
             val song = Song(binding.homeTodayAlbumTitleTv.text.toString(),binding.homeTodayAlbumSingerTv.text.toString())
             val sendData = Bundle().also {
                 it.putString("title",song.title)
@@ -36,6 +33,8 @@ class HomeFragment : Fragment() {
                 it.arguments = sendData
             }
 
+            (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_fragmentContainer,
+                albumFragment).commitAllowingStateLoss()
         }
 
         val HomeAdaptor = HomeViewAdaptor(this)
