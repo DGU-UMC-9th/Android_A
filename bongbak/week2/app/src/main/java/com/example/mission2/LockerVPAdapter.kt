@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
 
-class BannerVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class LockerVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private val fragmentlist:ArrayList<Fragment> = ArrayList();
     override fun getItemCount(): Int = fragmentlist.size

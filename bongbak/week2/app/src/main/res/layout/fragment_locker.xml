@@ -22,8 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="로그인"
-        android:textSize="15dp"
-        android:textColor="#808080"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/select_color"
         android:layout_marginEnd="20dp"
         app:layout_constraintTop_toTopOf="@id/locker_title_tv"
         app:layout_constraintBottom_toBottomOf="@id/locker_title_tv"
@@ -38,9 +39,9 @@
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorColor="#3f3fff"
         app:tabRippleColor="#00ff0000"
-        android:layout_marginLeft="5dp"
         app:layout_constraintTop_toBottomOf="@id/locker_title_tv"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="보관함 콘텐츠 종류 탭"/>
 
     <ImageView
         android:id="@+id/locker_select_all_img_iv"
@@ -91,15 +92,55 @@
         app:layout_constraintBottom_toBottomOf="@id/locker_select_all_img_iv"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tbl_storelay_lockerFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:tabMinWidth="100dp"
+        app:tabPaddingStart="16dp"
+        app:tabPaddingEnd="16dp"
+        app:tabIndicatorColor="#2F41E0"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="#2F41E0"
+        app:layout_constraintTop_toBottomOf="@id/locker_title_tv"
+        app:layout_constraintStart_toStartOf="parent"
+
+        >
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="저장한 곡"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="음악파일"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="저장앨범"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <!--ViewPager2 추가-->
+
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/locker_content_vp"
+        android:id="@+id/vp_Locker_lockerFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/locker_select_all_img_iv" />
+        app:layout_constraintTop_toBottomOf="@id/tbl_storelay_lockerFragment"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

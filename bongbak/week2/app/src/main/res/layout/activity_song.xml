@@ -187,7 +187,7 @@
         android:layout_height="wrap_content"
         android:text="01:00"
         android:textColor="#808080"
-        app:layout_constraintEnd_toEndOf="@+id/song_random_iv"
+        app:layout_constraintEnd_toEndOf="@+id/song_list_iv"
         app:layout_constraintTop_toBottomOf="@+id/song_progressbar_backgroud_view" />
 
 
@@ -242,6 +242,18 @@
         app:layout_constraintTop_toTopOf="@+id/song_player_layout" />
 
     <ImageView
+        android:id="@+id/song_select_repeat_iv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/nugu_btn_repeat_inactive"
+        app:tint="@color/select_color"
+        app:layout_constraintBottom_toBottomOf="@+id/song_player_layout"
+        app:layout_constraintEnd_toStartOf="@+id/song_player_layout"
+        app:layout_constraintTop_toTopOf="@+id/song_player_layout"
+        android:visibility="gone"/>
+
+    <ImageView
         android:id="@+id/song_random_iv"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -250,6 +262,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/song_player_layout"
         app:layout_constraintStart_toEndOf="@+id/song_player_layout"
         app:layout_constraintTop_toTopOf="@+id/song_player_layout" />
+
+    <ImageView
+        android:id="@+id/song_select_random_iv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/nugu_btn_random_inactive"
+        app:tint="@color/select_color"
+        app:layout_constraintBottom_toBottomOf="@+id/song_player_layout"
+        app:layout_constraintStart_toEndOf="@+id/song_player_layout"
+        app:layout_constraintTop_toTopOf="@+id/song_player_layout"
+        android:visibility="gone"/>
+
 
     <ImageView
         android:id="@+id/song_instagram_iv"

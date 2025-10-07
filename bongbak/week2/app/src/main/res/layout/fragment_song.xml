@@ -48,7 +48,7 @@
                 <ImageView
                     android:id="@+id/song_mixoff_tg"
                     android:layout_width="50dp"
-                    android:layout_height="25dp"
+                    android:layout_height="21dp"
                     android:layout_gravity="center"
                     android:src="@drawable/btn_toggle_off" />
 
