@@ -35,15 +35,6 @@ class SongFragment: Fragment() {
         binding.songSongRv.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL, false)
 
-        /*
-        songRVAdapter.setMyItemClickListener(object: SongRVAdapter.MyItemClickListener{
-            override fun onItemClick(song: Song, pos: Int) {
-                changeSongFragment(song)
-            }
-        })
-
-         */
-
 
         binding.songMixBtn.setOnClickListener {
             val result = Bundle().apply {

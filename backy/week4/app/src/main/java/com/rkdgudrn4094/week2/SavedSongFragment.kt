@@ -33,9 +33,6 @@ class SavedSongFragment: Fragment() {
             LinearLayoutManager.VERTICAL, false)
 
         savedSongRVAdapter.setMyItemClickListener(object: SavedSongRVAdapter.MyItemClickListener{
-            override fun onItemClick(album: Album) {
-
-            }
             override fun onRemoveAlbum(position: Int){
                 savedSongRVAdapter.removeItem(position)
             }

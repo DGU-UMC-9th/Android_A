@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.rkdgudrn4094.week2.databinding.ActivityMainBinding
 //import kotlin.jvm.java
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
     private val getResultText = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result ->
         if (result.resultCode == Activity.RESULT_OK){
@@ -91,6 +91,11 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
+    }
+
+    override fun onDataReceived(album: Album) {
+        binding.mainMiniplayerTitleTv.text = album.title
+        binding.mainMiniplayerSingerTv.text = album.singer
     }
 
 

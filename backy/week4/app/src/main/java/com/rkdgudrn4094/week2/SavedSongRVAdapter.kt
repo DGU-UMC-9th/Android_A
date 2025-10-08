@@ -3,13 +3,11 @@ package com.rkdgudrn4094.week2
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rkdgudrn4094.week2.databinding.ItemAlbumBinding
 import com.rkdgudrn4094.week2.databinding.ItemSavedsongBinding
 
 class SavedSongRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener{
-        fun onItemClick(album: Album)
         fun onRemoveAlbum(position: Int)
     }
 
@@ -31,9 +29,6 @@ class SavedSongRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.
 
     override fun onBindViewHolder(holder: SavedSongRVAdapter.ViewHolder, position: Int) {
         holder.bind(albumList[position])
-        holder.itemView.setOnClickListener {
-            mItemClickListener.onItemClick(albumList[position])
-        }
         holder.binding.itemSongMoreBtn.setOnClickListener {
             mItemClickListener.onRemoveAlbum(position)
         }
