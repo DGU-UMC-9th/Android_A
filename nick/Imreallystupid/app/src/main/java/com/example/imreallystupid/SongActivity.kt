@@ -25,8 +25,6 @@ class SongActivity : AppCompatActivity() {
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val resend = Intent(this, MainActivity::class.java)
-
         binding.songDownIv.setOnClickListener {
             val resultIntent = Intent().apply {
                 putExtra("reply", binding.songTitleTv.text.toString())
