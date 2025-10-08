@@ -10,11 +10,17 @@ class SavedSongRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.
 
     interface MyItemClickListener{
         fun onItemClick(album: Album)
+        fun onRemoveAlbum(position: Int)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
     fun setMyItemClickListener(itemClickListener: MyItemClickListener){
         mItemClickListener = itemClickListener
+    }
+
+    fun removeItem(position: Int){
+        albumList.removeAt(position)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SavedSongRVAdapter.ViewHolder {
@@ -27,6 +33,9 @@ class SavedSongRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.
         holder.bind(albumList[position])
         holder.itemView.setOnClickListener {
             mItemClickListener.onItemClick(albumList[position])
+        }
+        holder.binding.itemSongMoreBtn.setOnClickListener {
+            mItemClickListener.onRemoveAlbum(position)
         }
     }
 
