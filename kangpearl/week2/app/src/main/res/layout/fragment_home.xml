@@ -188,6 +188,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="45dp"
             android:text="홈"
+            android:textColor="#3F3FFF"
             app:layout_constraintStart_toStartOf="@id/home_home_select_iv"
             app:layout_constraintTop_toTopOf="@id/home_home_select_iv"/>
 
@@ -305,6 +306,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="105dp"
             android:text="BTS"
+            android:textColor="#808080"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/home_today_music_iv"
             app:layout_constraintTop_toTopOf="@+id/home_today_music_iv"/>
