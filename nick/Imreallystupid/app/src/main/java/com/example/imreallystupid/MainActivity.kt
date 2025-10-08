@@ -24,6 +24,40 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_fragmentContainer, HomeFragment(), null)
             .commit()
 
+        binding.mainBottomnav.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+
+                R.id.main_bottomnav_home_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, HomeFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+
+                /*R.id.main_bottomnav_search_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, SearchFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.main_bottomnav_look_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, LookFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }*/
+
+                R.id.main_bottomnav_locker_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, LockerFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            false
+        }
+
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
@@ -40,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("singer",song.singer)
             resultLauncher.launch(intent)
         }
+
 
     }
 }
