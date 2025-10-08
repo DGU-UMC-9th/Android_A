@@ -123,7 +123,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="280dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="210dp"
             android:src="@drawable/btn_miniplayer_play"
             app:layout_constraintStart_toStartOf="@+id/home_pannel_background_iv"
             app:layout_constraintTop_toBottomOf="@id/home_pannel_background_iv"
@@ -134,7 +134,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="360dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="210dp"
             android:src="@drawable/btn_miniplayer_go_list"
             app:layout_constraintStart_toStartOf="@id/home_pannel_background_iv"
             app:layout_constraintTop_toBottomOf="@id/home_pannel_background_iv"/>
@@ -144,7 +144,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="320dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="210dp"
             android:src="@drawable/btn_miniplayer_next"
             app:layout_constraintStart_toStartOf="@id/home_pannel_background_iv"
             app:layout_constraintTop_toBottomOf="@id/home_pannel_background_iv"/>
@@ -154,7 +154,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="240dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="210dp"
             android:src="@drawable/btn_miniplayer_previous"
             app:layout_constraintStart_toStartOf="@id/home_pannel_background_iv"
             app:layout_constraintTop_toBottomOf="@id/home_pannel_background_iv"/>
@@ -166,7 +166,7 @@
             android:text="Butter\nBTS"
             android:textColor="@color/black"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="210dp"
             app:layout_constraintStart_toStartOf="@id/home_pannel_background_iv"
             app:layout_constraintTop_toBottomOf="@id/home_pannel_background_iv"
             />
@@ -188,7 +188,6 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="45dp"
             android:text="홈"
-            android:textColor="cyan"
             app:layout_constraintStart_toStartOf="@id/home_home_select_iv"
             app:layout_constraintTop_toTopOf="@id/home_home_select_iv"/>
 
@@ -256,15 +255,14 @@
             app:layout_constraintTop_toTopOf="@+id/home_locker_no_select_iv"/>
 
         <ImageView
-            android:id="@+id/home_today_music_iv"
+            android:id="@+id/home_today_music_arrow_iv"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="425dp"
             app:layout_constraintStart_toEndOf="@id/home_today_music_tv"
             app:layout_constraintTop_toTopOf="@id/home_pannel_background_iv"
-            android:src="@drawable/ic_today_music"
-            />
+            android:src="@drawable/ic_today_music"/>
         
         <TextView
             android:id="@+id/home_today_music_tv"
@@ -277,8 +275,39 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/home_pannel_background_iv"
-            app:layout_constraintTop_toTopOf="@id/home_pannel_background_iv"
-            />
+            app:layout_constraintTop_toTopOf="@id/home_pannel_background_iv"/>
+
+        <ImageView
+            android:id="@+id/home_today_music_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/img_album_exp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="@+id/home_today_music_tv"
+            app:layout_constraintTop_toTopOf="@+id/home_today_music_tv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="85dp"
+            android:text="Butter"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@+id/home_today_music_iv"
+            app:layout_constraintTop_toTopOf="@+id/home_today_music_iv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="105dp"
+            android:text="BTS"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/home_today_music_iv"
+            app:layout_constraintTop_toTopOf="@+id/home_today_music_iv"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
