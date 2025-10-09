@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_frm, HomeFragment())
             .commitAllowingStateLoss()
 
-        fragmentManager.executePendingTransactions()
-
         binding.mainBnv.setOnItemSelectedListener{ item ->
             when (item.itemId) {
 
@@ -70,4 +68,5 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
+
 }
