@@ -6,6 +6,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.imreallystupid.databinding.ItemLockerBinding
 
 class LockerRVAdapter( private val albumlist : ArrayList<Album> ) : RecyclerView.Adapter<LockerRVAdapter.ViewHolder>() {
+
+    private lateinit var mItemClickListener: LockerRVAdapter.AlbumListItemClickListener
+
+    interface AlbumListItemClickListener{
+        fun onRemoveAlbum(position: Int)
+    }
+
+    fun setMyItemClickListener(itemClickListener: LockerRVAdapter.AlbumListItemClickListener){
+        mItemClickListener = itemClickListener
+    }
+
+    fun removeitem(position: Int){
+        albumlist.removeAt(position)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -17,6 +33,7 @@ class LockerRVAdapter( private val albumlist : ArrayList<Album> ) : RecyclerView
 
     override fun onBindViewHolder(holder: LockerRVAdapter.ViewHolder, position: Int) {
         holder.bind(albumlist[position])
+        holder.binding.lockerSavedMoreIv.setOnClickListener { mItemClickListener.onRemoveAlbum(position) }
     }
 
     override fun getItemCount(): Int = albumlist.size

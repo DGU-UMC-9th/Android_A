@@ -18,16 +18,6 @@ class AlbumRVAdapter(private val albumlist: ArrayList<Album>): RecyclerView.Adap
         mItemClickListener = itemClickListener
     }
 
-    fun additem(album: Album) {
-        albumlist.add(album)
-        notifyDataSetChanged()
-    }
-
-    fun removeitem(position: Int){
-        albumlist.removeAt(position)
-        notifyDataSetChanged()
-    }
-
 
 
     interface AlbumPlayListener{

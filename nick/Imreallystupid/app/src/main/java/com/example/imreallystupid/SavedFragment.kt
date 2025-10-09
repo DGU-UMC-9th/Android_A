@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imreallystupid.databinding.FragmentSavedBinding
+import com.google.gson.Gson
 
 
 class SavedFragment : Fragment() {
@@ -35,6 +36,12 @@ class SavedFragment : Fragment() {
         val lockerRVAdapter = LockerRVAdapter(albumData)
         binding.lockerSavedVp.adapter = lockerRVAdapter
         binding.lockerSavedVp.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        lockerRVAdapter.setMyItemClickListener(object : LockerRVAdapter.AlbumListItemClickListener{
+            override fun onRemoveAlbum(position: Int) {
+                lockerRVAdapter.removeitem(position)
+            }
+        })
 
         return binding.root
     }
