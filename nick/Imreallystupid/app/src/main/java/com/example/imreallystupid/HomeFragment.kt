@@ -1,21 +1,34 @@
 package com.example.imreallystupid
 
+<<<<<<< HEAD
+=======
+import android.content.Intent
+>>>>>>> origin/33-mission-4주차-미션-제출
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+<<<<<<< HEAD
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.imreallystupid.databinding.FragmentHomeBinding
 import com.google.gson.Gson
+=======
+import androidx.viewpager2.widget.ViewPager2
+import com.example.imreallystupid.databinding.FragmentHomeBinding
+
+>>>>>>> origin/33-mission-4주차-미션-제출
 
 
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
+<<<<<<< HEAD
     private var albumData = ArrayList<Album>()
 
+=======
+>>>>>>> origin/33-mission-4주차-미션-제출
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,8 +37,13 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+<<<<<<< HEAD
         //3주차 코드
         /*binding.homeTodayAlbumTitleTv.setOnClickListener {
+=======
+
+        binding.homeTodayAlbumIv.setOnClickListener {
+>>>>>>> origin/33-mission-4주차-미션-제출
             val song = Song(binding.homeTodayAlbumTitleTv.text.toString(),binding.homeTodayAlbumSingerTv.text.toString())
             val sendData = Bundle().also {
                 it.putString("title",song.title)
@@ -37,6 +55,7 @@ class HomeFragment : Fragment() {
 
             (context as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.main_fragmentContainer,
                 albumFragment).commitAllowingStateLoss()
+<<<<<<< HEAD
         }*/
 
         albumData.apply {
@@ -74,6 +93,12 @@ class HomeFragment : Fragment() {
 
         val HomeAdapter = HomeViewAdapter(this)
         binding.homeViewpagerVp.adapter = HomeAdapter
+=======
+        }
+
+        val HomeAdaptor = HomeViewAdaptor(this)
+        binding.homeViewpagerVp.adapter = HomeAdaptor
+>>>>>>> origin/33-mission-4주차-미션-제출
         binding.homeViewpagerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         return binding.root
