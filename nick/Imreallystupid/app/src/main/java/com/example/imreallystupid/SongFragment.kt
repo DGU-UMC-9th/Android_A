@@ -5,14 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-<<<<<<< HEAD
-<<<<<<< HEAD
 import androidx.recyclerview.widget.LinearLayoutManager
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
-=======
-import androidx.recyclerview.widget.LinearLayoutManager
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
 import com.example.imreallystupid.databinding.FragmentDetailBinding
 import com.example.imreallystupid.databinding.FragmentSongBinding
 
@@ -20,16 +13,8 @@ import com.example.imreallystupid.databinding.FragmentSongBinding
 class SongFragment : Fragment() {
     lateinit var binding: FragmentSongBinding
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     private var albumData = ArrayList<Album>()
 
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
-=======
-    private var albumData = ArrayList<Album>()
-
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
     fun setToggleStatus(isPlaying : Boolean) {
         if(isPlaying) {
             binding.albumSongMixToggleOnIv.visibility = View.VISIBLE
@@ -55,10 +40,6 @@ class SongFragment : Fragment() {
             setToggleStatus(false)
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
         albumData.apply {
             add(Album("butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
             add(Album("Lilac", "아이유 (IU)", R.drawable.img_album_exp2))
@@ -72,11 +53,6 @@ class SongFragment : Fragment() {
         binding.albumSongRv.adapter = songAdapter
         binding.albumSongRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-<<<<<<< HEAD
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
-=======
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
         return binding.root
     }
 

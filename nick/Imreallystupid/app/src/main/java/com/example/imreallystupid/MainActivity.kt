@@ -1,9 +1,6 @@
 package com.example.imreallystupid
 
-<<<<<<< HEAD
 import android.content.Context
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -11,30 +8,21 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.imreallystupid.databinding.ActivityMainBinding
-<<<<<<< HEAD
 import com.google.gson.Gson
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
 
 
 private lateinit var binding: ActivityMainBinding
 
-<<<<<<< HEAD
 private var albumData = ArrayList<Album>()
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
 class MainActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
-<<<<<<< HEAD
     fun updateMiniPlayer(album: Album) {
         binding.mainMiniplayerTitleTv.text = album.title
         binding.mainMiniplayerSingerTv.text = album.singer
     }
 
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -44,10 +32,6 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_fragmentContainer, HomeFragment(), null)
             .commit()
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
         binding.mainBottomnav.setOnItemSelectedListener { item ->
             when(item.itemId) {
 
@@ -82,11 +66,6 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-<<<<<<< HEAD
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
-=======
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
@@ -103,7 +82,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("singer",song.singer)
             resultLauncher.launch(intent)
         }
-
 
     }
 }

@@ -40,14 +40,7 @@ android {
 
 dependencies {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     implementation("com.google.code.gson:gson:2.8.7")
-=======
->>>>>>> origin/33-mission-4주차-미션-제출
-=======
-    implementation("com.google.code.gson:gson:2.8.7")
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

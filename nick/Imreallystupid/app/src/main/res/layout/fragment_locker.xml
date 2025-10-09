@@ -44,16 +44,7 @@
         android:layout_height="match_parent"
         android:id="@+id/locker_viewpager_vp"
         app:layout_constraintTop_toBottomOf="@id/locker_tablayout_tb"
-<<<<<<< HEAD
-<<<<<<< HEAD
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="105dp"/>
-=======
-        app:layout_constraintStart_toStartOf="parent"/>
->>>>>>> origin/33-mission-4주차-미션-제출
-=======
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="105dp"/>
->>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
 
 </androidx.constraintlayout.widget.ConstraintLayout>
