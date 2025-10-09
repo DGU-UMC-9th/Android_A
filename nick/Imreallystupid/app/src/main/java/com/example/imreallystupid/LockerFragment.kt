@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.imreallystupid.databinding.FragmentLockerBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 
 
 class LockerFragment : Fragment() {
@@ -28,6 +31,7 @@ class LockerFragment : Fragment() {
                 tab, position ->
             tab.text = information[position]
         }.attach()
+
 
         return binding.root
     }
