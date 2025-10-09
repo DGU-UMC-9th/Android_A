@@ -3,11 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 <<<<<<< HEAD
+<<<<<<< HEAD
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 =======
     xmlns:app="http://schemas.android.com/apk/res-auto">
 >>>>>>> origin/33-mission-4주차-미션-제출
+=======
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,11 +25,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
 <<<<<<< HEAD
+<<<<<<< HEAD
             app:layout_constraintEnd_toEndOf="parent"/>
 =======
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/home_today_tv"/>
 >>>>>>> origin/33-mission-4주차-미션-제출
+=======
+            app:layout_constraintEnd_toEndOf="parent"/>
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,10 +58,14 @@
             android:layout_marginTop="30dp"/>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         <!--<ImageView
 =======
         <ImageView
 >>>>>>> origin/33-mission-4주차-미션-제출
+=======
+        <!--<ImageView
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:id="@+id/home_today_album_iv"
@@ -83,6 +96,9 @@
             app:layout_constraintTop_toBottomOf="@id/home_today_album_title_tv"
             app:layout_constraintStart_toStartOf="parent"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
             android:layout_marginStart="20dp"/>-->
 
         <androidx.recyclerview.widget.RecyclerView
@@ -95,9 +111,12 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"/>
+<<<<<<< HEAD
 =======
             android:layout_marginStart="20dp"/>
 >>>>>>> origin/33-mission-4주차-미션-제출
+=======
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

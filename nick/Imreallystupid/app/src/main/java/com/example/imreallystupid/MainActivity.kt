@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
         binding.mainBottomnav.setOnItemSelectedListener { item ->
             when(item.itemId) {
 
@@ -79,8 +82,11 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+<<<<<<< HEAD
 =======
 >>>>>>> origin/33-mission-4주차-미션-제출
+=======
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
@@ -97,6 +103,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("singer",song.singer)
             resultLauncher.launch(intent)
         }
+
 
     }
 }

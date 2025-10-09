@@ -47,6 +47,9 @@
     </LinearLayout>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +57,9 @@
         app:layout_constraintTop_toBottomOf="@id/album_song_toggleBox_ll"
         app:layout_constraintStart_toStartOf="parent"/>
 
+<<<<<<< HEAD
 =======
 >>>>>>> origin/33-mission-4주차-미션-제출
+=======
+>>>>>>> a57410f1eabcb89a8497eb1752ab2af4f54be786
 </androidx.constraintlayout.widget.ConstraintLayout>
