@@ -1,5 +1,6 @@
 package com.example.mission2
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,20 @@ class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
     private val albumDatas=ArrayList<Album>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnSongPlayListener) {
+            songPlayListener = context
+        } else {
+            throw RuntimeException("$context must implement OnSongPlayListener")
+        }
+    }
+    interface OnSongPlayListener {
+        fun onSongPlayed(title: String?, singer: String?)
+    }
+    private lateinit var songPlayListener: OnSongPlayListener
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +61,10 @@ class HomeFragment : Fragment() {
 
             override fun onRemoveAlbum(position: Int) {
                albumRVAdapter.removeItem(position)
+            }
+
+            override fun onPlayClick(album: Album) {
+                songPlayListener.onSongPlayed(album.title, album.singer)
             }
         })
 

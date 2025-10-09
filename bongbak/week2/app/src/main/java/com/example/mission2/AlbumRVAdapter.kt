@@ -10,6 +10,7 @@ class AlbumRVAdapter(private val albumList:ArrayList<Album>): RecyclerView.Adapt
     interface MyItemClickListener{
         fun onItemClick(album: Album)
         fun onRemoveAlbum(position:Int)
+        fun onPlayClick(album: Album)
     }
 
     private lateinit var myItemClickListener: MyItemClickListener
@@ -49,6 +50,11 @@ class AlbumRVAdapter(private val albumList:ArrayList<Album>): RecyclerView.Adapt
             binding.itemAlbumTitleTv.text=album.title
             binding.itemAlbumSingerNameTv.text=album.singer
             binding.itemAlbumCoverImgIv.setImageResource(album.coverImg!!)
+
+            binding.itemAlbumPlayImgIv.setOnClickListener {
+                myItemClickListener.onPlayClick(album)
+            }
+
         }
     }
 }
