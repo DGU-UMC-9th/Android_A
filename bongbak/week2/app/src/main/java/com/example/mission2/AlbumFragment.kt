@@ -17,7 +17,6 @@ class AlbumFragment : Fragment() {
     lateinit var binding : FragmentAlbumBinding
     private var gson: Gson =Gson()
 
-
     override fun onCreateView(
         inflater : LayoutInflater,
         container : ViewGroup?,
@@ -33,6 +32,7 @@ class AlbumFragment : Fragment() {
                 .replace(R.id.main_frm, HomeFragment()).commitAllowingStateLoss()
 
         }
+
 
         val albumJson=arguments?.getString("album")
         val album=gson.fromJson(albumJson,Album::class.java)
