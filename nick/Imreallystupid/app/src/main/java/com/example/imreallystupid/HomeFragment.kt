@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
             add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
         }
 
-        val albumRVAdapter = AlbumRVAdapter(requireActivity(),albumData)
+        val albumRVAdapter = AlbumRVAdapter(albumData)
         binding.homeTodayAlbumRv.adapter = albumRVAdapter
         binding.homeTodayAlbumRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
@@ -64,9 +64,11 @@ class HomeFragment : Fragment() {
                  })
                  .commitAllowingStateLoss()
             }
+        })
 
-            override fun onRemoveAlbum(position: Int) {
-                albumRVAdapter.removeitem(position)
+        albumRVAdapter.sendToMiniPlayer(object : AlbumRVAdapter.AlbumPlayListener {
+            override fun changeText(album: Album) {
+                (activity as MainActivity).updateMiniPlayer(album)
             }
         })
 

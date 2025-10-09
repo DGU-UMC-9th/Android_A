@@ -1,5 +1,6 @@
 package com.example.imreallystupid
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -7,13 +8,20 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.imreallystupid.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 
 private lateinit var binding: ActivityMainBinding
 
+private var albumData = ArrayList<Album>()
 class MainActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
+    fun updateMiniPlayer(album: Album) {
+        binding.mainMiniplayerTitleTv.text = album.title
+        binding.mainMiniplayerSingerTv.text = album.singer
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +82,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("singer",song.singer)
             resultLauncher.launch(intent)
         }
-
 
     }
 }
