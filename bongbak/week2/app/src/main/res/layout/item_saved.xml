@@ -67,6 +67,7 @@
         android:layout_height="25dp"
         android:layout_marginEnd="15dp"
         android:src="@drawable/btn_player_more"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/item_saved_singer_name_01_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/item_saved_music_title_01_tv" />
