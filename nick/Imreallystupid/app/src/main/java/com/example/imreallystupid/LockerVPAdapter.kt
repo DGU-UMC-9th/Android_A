@@ -8,7 +8,7 @@ class LockerVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         return when(position) {
             0 -> SavedFragment()
             1 -> LockerViewFragment2()
-            else -> LockerViewFragment3()
+            else -> SavedAlbumFragment()
         }
     }
 
