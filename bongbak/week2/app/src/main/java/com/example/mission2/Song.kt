@@ -5,5 +5,6 @@ data class Song(
     var singer: String = "",
     var second: Int=0,
     val playTime:Int=0,
-    var isPlaying: Boolean=false
+    var isPlaying: Boolean=false,
+    var mills:Int=0
 )
