@@ -12,7 +12,7 @@ class LockerVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         return when (position) {
             0 -> SavedFragment()
             1 -> Fragment()
-            else -> Fragment()
+            else -> SalbumFragment()
         }
     }
 }
