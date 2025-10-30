@@ -104,12 +104,14 @@ class SongActivity : AppCompatActivity() {
             timer.interrupt()
             timer = Timer(song.playTime, song.isPlaying)
             timer.start()
+            mediaPlayer?.seekTo(0)
         }
         binding.songPreviousIv.setOnClickListener {
             timer.resetTimer()
             timer.interrupt()
             timer = Timer(song.playTime, song.isPlaying)
             timer.start()
+            mediaPlayer?.seekTo(0)
         }
 
         /*

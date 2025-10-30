@@ -45,6 +45,7 @@ class SavedAlbumRVAdapter(private val albumList: ArrayList<Album>): RecyclerView
         fun bind(album: Album, pos: Int){
             binding.itemLockerAlbumTv.text = album.title
             binding.itemLockerSingerTv.text = album.singer
+            binding.itemLockerAlbumImgIv.setImageResource(album.coverImg!!)
         }
     }
 }
