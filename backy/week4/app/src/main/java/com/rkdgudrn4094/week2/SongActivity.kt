@@ -1,18 +1,41 @@
 package com.rkdgudrn4094.week2
 
 import android.app.Activity
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.IBinder
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
 import com.rkdgudrn4094.week2.databinding.ActivitySongBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SongActivity : AppCompatActivity() {
     lateinit var binding : ActivitySongBinding
     lateinit var song: Song
     lateinit var timer: Timer
+
+    /*
+    private var musicService: MusicService?= null
+    private var isBound = false
+    private var updateJob: Job?= null
+
+     */
+    private var mediaPlayer: MediaPlayer?=null
+    private var gson: Gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +44,17 @@ class SongActivity : AppCompatActivity() {
 
         initSong()
         setPlayer(song)
+
+        /*
+        val musicServiceIntent = Intent(this, MusicService::class.java).apply{
+            putExtra("songTitle", song?.title?:"Unknown")
+            putExtra("songArtist", song?.singer?:"Unknown")
+            putExtra("isPlaying", true)
+        }
+        ContextCompat.startForegroundService(this, musicServiceIntent)
+        bindService(musicServiceIntent, connection, Context.BIND_AUTO_CREATE)
+
+         */
 
         binding.songDownIb.setOnClickListener {
             val song = Song(binding.songMusicTitleTv.text.toString(), binding.songSingerNameTv.text.toString())
@@ -33,9 +67,11 @@ class SongActivity : AppCompatActivity() {
         }
 
         binding.songMiniplayerIv.setOnClickListener {
+            //musicService?.playMusic()
             setPlayerStatus(true)
         }
         binding.songPauseIv.setOnClickListener {
+            //musicService?.pauseMusic()
             setPlayerStatus(false)
         }
 
@@ -75,6 +111,18 @@ class SongActivity : AppCompatActivity() {
             timer = Timer(song.playTime, song.isPlaying)
             timer.start()
         }
+
+        /*
+        binding.songProgressSb.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser){
+                    musicService?.seekTo(progress)
+                    binding.songStartTimeTv.text
+                }
+            }
+        })
+
+         */
     }
 
     fun setPlayerStatus(isPlaying: Boolean){
@@ -84,10 +132,14 @@ class SongActivity : AppCompatActivity() {
         if(isPlaying){
             binding.songMiniplayerIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
+            mediaPlayer?.start()
         }
         else{
             binding.songMiniplayerIv.visibility = View.VISIBLE
             binding.songPauseIv.visibility = View.GONE
+            if (mediaPlayer?.isPlaying == true){
+                mediaPlayer?.pause()
+            }
         }
     }
 
@@ -114,6 +166,8 @@ class SongActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer.interrupt()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     private fun initSong(){
@@ -123,7 +177,8 @@ class SongActivity : AppCompatActivity() {
                 intent.getStringExtra("singer")!!,
                 intent.getIntExtra("second", 0),
                 intent.getIntExtra("playTime", 0),
-                intent.getBooleanExtra("isPlaying", false)
+                intent.getBooleanExtra("isPlaying", false),
+                intent.getStringExtra("music")!!
             )
         }
         startTimer()
@@ -135,6 +190,9 @@ class SongActivity : AppCompatActivity() {
         binding.songStartTimeTv.text=String.format("%02d:%02d", song.second/60, song.second%60)
         binding.songEndTimeTv.text=String.format("%02d:%02d", song.playTime/60, song.playTime%60)
         binding.songProgressSb.progress = (song.second * 1000 / song.playTime)
+
+        val music = resources.getIdentifier(song.music, "raw", this.packageName)
+        mediaPlayer = MediaPlayer.create(this, music)
 
         setPlayerStatus(song.isPlaying)
     }
@@ -180,4 +238,42 @@ class SongActivity : AppCompatActivity() {
             binding.songStartTimeTv.text="00:00"
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        setPlayerStatus(false)
+        song.second = ((binding.songProgressSb.progress * song.playTime)/100)/1000
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val songJson = gson.toJson(song)
+        editor.putString("songData", songJson)
+
+        editor.apply()
+    }
+
+    /*
+    private val connection = object: ServiceConnection{
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as MusicService.MusicBinder
+            musicService=binder.getService()
+            isBound=true
+
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound=false
+        }
+    }
+
+    private fun updateSeekbar(timer: Timer){
+        updateJob?.cancel()
+        updateJob = lifecycleScope.launch(Dispatchers.Main){
+            while (isBound && musicService?.isPlaying() == true){
+                delay(100)
+                val currentPosition = musicService!!.getCurrentPosition()
+            }
+        }
+    }
+
+     */
 }
