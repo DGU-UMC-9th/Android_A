@@ -1,5 +1,6 @@
 package com.example.imreallystupid
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -7,22 +8,64 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.imreallystupid.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 
 private lateinit var binding: ActivityMainBinding
 
+private var albumData = ArrayList<Album>()
 class MainActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
+    fun updateMiniPlayer(album: Album) {
+        binding.mainMiniplayerTitleTv.text = album.title
+        binding.mainMiniplayerSingerTv.text = album.singer
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Imreallystupid)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragmentContainer, HomeFragment(), null)
             .commit()
+
+        binding.mainBottomnav.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+
+                R.id.main_bottomnav_home_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, HomeFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+
+                /*R.id.main_bottomnav_search_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, SearchFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.main_bottomnav_look_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, LookFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }*/
+
+                R.id.main_bottomnav_locker_it -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_fragmentContainer, LockerFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            false
+        }
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -33,11 +76,14 @@ class MainActivity : AppCompatActivity() {
         }
         val intent = Intent(this, SongActivity::class.java)
 
-        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString())
+        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60,false)
 
         binding.mainMiniplayer.setOnClickListener {
             intent.putExtra("title",song.title)
             intent.putExtra("singer",song.singer)
+            intent.putExtra("second",song.second)
+            intent.putExtra("playTime",song.playTime)
+            intent.putExtra("isPlaying",song.isPlaying)
             resultLauncher.launch(intent)
         }
 

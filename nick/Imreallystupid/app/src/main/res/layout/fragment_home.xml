@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,8 +15,7 @@
             android:id="@+id/home_viewpager_vp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/home_today_tv"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintStart_toEndOf="@id/home_today_tv"
             android:layout_marginTop="30dp"/>
 
-        <ImageView
+        <!--<ImageView
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:id="@+id/home_today_album_iv"
@@ -69,7 +69,18 @@
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/home_today_album_title_tv"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"/>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/home_todayAlbum_rv"
+            app:layout_constraintTop_toBottomOf="@id/home_today_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_album"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
