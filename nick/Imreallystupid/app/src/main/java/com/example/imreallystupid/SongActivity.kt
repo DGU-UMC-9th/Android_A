@@ -14,10 +14,6 @@ import androidx.core.content.ContextCompat
 import com.example.imreallystupid.databinding.ActivitySongBinding
 import kotlinx.coroutines.Job
 
-
-
-
-
 class SongActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySongBinding
@@ -40,10 +36,10 @@ class SongActivity : AppCompatActivity() {
             finish()
         }
         binding.songPlayIv.setOnClickListener {
-            setPlayerStatus(false)
+            setPlayerStatus(true)
         }
         binding.songPauseIv.setOnClickListener {
-            setPlayerStatus(true)
+            setPlayerStatus(false)
         }
 
         setPlayer(song)
@@ -89,12 +85,12 @@ class SongActivity : AppCompatActivity() {
         timer.isPlaying = isPlaying
 
         if(isPlaying) {
-            binding.songPlayIv.visibility = View.VISIBLE
-            binding.songPauseIv.visibility = View.GONE
-        }
-        else {
             binding.songPlayIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
+        }
+        else {
+            binding.songPlayIv.visibility = View.VISIBLE
+            binding.songPauseIv.visibility = View.GONE
         }
     }
 
@@ -116,7 +112,7 @@ class SongActivity : AppCompatActivity() {
                         mills += 50
 
                         runOnUiThread {
-                            binding.songSeekbarSb.progress = ((mills/playTime)*100).toInt()
+                            binding.songSeekbarSb.progress = ((mills/playTime)*10).toInt()
                         }
                         if (mills % 1000 == 0f){
                             runOnUiThread {
