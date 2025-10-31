@@ -137,24 +137,25 @@ class SongActivity : AppCompatActivity() {
         }
     }
     }
-//
-//    private fun setRepeatStatus(isRepeat: Boolean) {
-//        if (isRepeat) {
-//            binding.songRepeatIv.visibility = View.GONE
-//            binding.songSelectRepeatIv.visibility = View.VISIBLE
-//        } else {
-//            binding.songRepeatIv.visibility = View.VISIBLE
-//            binding.songSelectRepeatIv.visibility = View.GONE
-//        }
-//    }
-//
-//    private fun setRandomStatus(isRandom: Boolean) {
-//        if (isRandom) {
-//            binding.songRandomIv.visibility = View.GONE
-//            binding.songSelectRandomIv.visibility = View.VISIBLE
-//        } else {
-//            binding.songRandomIv.visibility = View.VISIBLE
-//            binding.songSelectRandomIv.visibility = View.GONE
-//        }
-//    }
+/*
+    private fun setRepeatStatus(isRepeat: Boolean) {
+        if (isRepeat) {
+            binding.songRepeatIv.visibility = View.GONE
+            binding.songSelectRepeatIv.visibility = View.VISIBLE
+        } else {
+            binding.songRepeatIv.visibility = View.VISIBLE
+            binding.songSelectRepeatIv.visibility = View.GONE
+        }
+    }
+
+    private fun setRandomStatus(isRandom: Boolean) {
+        if (isRandom) {
+            binding.songRandomIv.visibility = View.GONE
+            binding.songSelectRandomIv.visibility = View.VISIBLE
+        } else {
+            binding.songRandomIv.visibility = View.VISIBLE
+            binding.songSelectRandomIv.visibility = View.GONE
+        }
+    }
+    */
 }
