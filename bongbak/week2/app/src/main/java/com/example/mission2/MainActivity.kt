@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mission2.databinding.ActivityMainBinding
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
 
     lateinit var binding: ActivityMainBinding
 
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         initBottomNavigation()
 
-        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString())
+        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(),0,60,false)
 
         binding.mainPlayerCl.setOnClickListener {
             val intent = Intent(this, SongActivity::class.java)
@@ -25,10 +25,21 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,SongActivity::class.java)
             intent.putExtra("title", song.title)
             intent.putExtra("singer",song.singer)
+            intent.putExtra("second",song.second)
+            intent.putExtra("playTime",song.playTime)
+            intent.putExtra("isPlaying",song.isPlaying)
             startActivity(intent)
         }
 
     }
+    override fun onSongPlayed(title: String?, singer: String?){
+        binding.mainMiniplayerTitleTv.text = title
+        binding.mainMiniplayerSingerTv.text = singer
+        binding.mainMiniplayerTitleTv.text = title
+        binding.mainMiniplayerSingerTv.text = singer
+    }
+
+
 
     private fun initBottomNavigation(){
 
