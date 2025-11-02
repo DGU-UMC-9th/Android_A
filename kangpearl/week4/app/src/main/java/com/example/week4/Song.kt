@@ -2,6 +2,9 @@ package com.example.week4
 
 
 data class Song(
-    val title: String = "",
-    val singer: String = ""
+    var title: String = "",
+    var singer: String = "",
+    var albumArt: Int? = null,
+    var releaseInfo: String = "",
+    var isPlaying: Boolean = false
 )

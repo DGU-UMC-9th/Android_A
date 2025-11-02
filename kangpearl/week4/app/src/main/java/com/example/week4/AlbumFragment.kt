@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.week4.Song
 import com.example.week4.databinding.FragmentAlbumBinding
 
 class AlbumFragment : Fragment() {
@@ -31,7 +30,7 @@ class AlbumFragment : Fragment() {
     }
 
     private fun initRecyclerView(){
-        val songRVAdapter = SongRVAdapter(songData)
+        val songRVAdapter = SavedSongRVAdapter(songData)
         binding.albumSongListRv.adapter = songRVAdapter
         binding.albumSongListRv.layoutManager = LinearLayoutManager(context)
     }
