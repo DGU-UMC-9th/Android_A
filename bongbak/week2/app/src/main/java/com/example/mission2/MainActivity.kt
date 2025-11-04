@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
 
         initBottomNavigation()
 
-        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(),0,60,false)
+        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(),0,60,false,"unavailable")
 
         binding.mainPlayerCl.setOnClickListener {
             val intent = Intent(this, SongActivity::class.java)
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
             intent.putExtra("second",song.second)
             intent.putExtra("playTime",song.playTime)
             intent.putExtra("isPlaying",song.isPlaying)
+            intent.putExtra("music",song.music)
             startActivity(intent)
         }
 
@@ -78,6 +79,10 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
             }
             false
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
 }

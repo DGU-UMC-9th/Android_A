@@ -6,5 +6,6 @@ data class Song(
     var second: Int=0,
     val playTime:Int=0,
     var isPlaying: Boolean=false,
-    var mills:Int=0
+    var music: String=""
+    // 어떤 음악이 재생되고 있었는지를 확인
 )

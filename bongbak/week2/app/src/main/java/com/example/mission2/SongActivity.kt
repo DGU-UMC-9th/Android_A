@@ -1,18 +1,22 @@
 package com.example.mission2
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mission2.databinding.ActivitySongBinding
+import com.google.gson.Gson
 
 class SongActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivitySongBinding
-    //week5. song data 초기화 함수 생성
-    lateinit var song : Song
-    lateinit var timer:Timer
+    lateinit var binding: ActivitySongBinding
 
+    //week5. song data 초기화 함수 생성
+    lateinit var song: Song
+    lateinit var timer: Timer
+    private var mediaPlayer: MediaPlayer? = null
+    private var gson: Gson=Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySongBinding.inflate(layoutInflater)
@@ -36,27 +40,26 @@ class SongActivity : AppCompatActivity() {
             setPlayerStatus(false)
         }
     }
-    override fun onDestroy(){
-        super.onDestroy() // 쓰레드 종료
-        timer.interrupt()
-    }
-//
-//        // 반복재생 버튼
-//        binding.songRepeatIv.setOnClickListener {
-//            setRepeatStatus(true)
-//        }
-//        binding.songSelectRepeatIv.setOnClickListener {
-//            setRepeatStatus(false)
-//        }
-//
-//        // 랜덤재생 버튼
-//        binding.songRandomIv.setOnClickListener {
-//            setRandomStatus(true)
-//        }
-//        binding.songSelectRandomIv.setOnClickListener {
-//            setRandomStatus(false)
-//        }
 
+
+
+    /*
+            // 반복재생 버튼
+            binding.songRepeatIv.setOnClickListener {
+                setRepeatStatus(true)
+            }
+            binding.songSelectRepeatIv.setOnClickListener {
+                setRepeatStatus(false)
+            }
+
+            // 랜덤재생 버튼
+            binding.songRandomIv.setOnClickListener {
+                setRandomStatus(true)
+            }
+            binding.songSelectRandomIv.setOnClickListener {
+                setRandomStatus(false)
+            }
+    */
     // week5. Song 객체를 초기화하는 함수
     private fun initSong() {
         // Intent로 넘어온 데이터가 있는지 확인
@@ -66,7 +69,8 @@ class SongActivity : AppCompatActivity() {
                 intent.getStringExtra("singer")!!,
                 intent.getIntExtra("second", 0),
                 intent.getIntExtra("playTime", 60), // playTime이 0이면 안되므로 기본값 60초 설정
-                intent.getBooleanExtra("isPlaying", false)
+                intent.getBooleanExtra("isPlaying", false),
+                intent.getStringExtra("music")!!
             )
         }
         startTimer()
@@ -76,86 +80,117 @@ class SongActivity : AppCompatActivity() {
     private fun setPlayer(song: Song) {
         binding.songMusicTitleTv.text = song.title
         binding.songSingerNameTv.text = song.singer
-        binding.songStartTimeTv.text = String.format("%02d:%02d", song.second / 60, song.second % 60)
-        binding.songEndTimeTv.text = String.format("%02d:%02d", song.playTime / 60, song.playTime % 60) // song.second -> song.playTime 수정
+        binding.songStartTimeTv.text =
+            String.format("%02d:%02d", song.second / 60, song.second % 60)
+        binding.songEndTimeTv.text = String.format(
+            "%02d:%02d",
+            song.playTime / 60,
+            song.playTime % 60
+        ) // song.second -> song.playTime 수정
         binding.songProgressSb.progress = (song.second * 1000 / song.playTime)
-
+        val music = resources.getIdentifier(song.music, "raw", this.packageName)
+        mediaPlayer = MediaPlayer.create(this, music)
         setPlayerStatus(song.isPlaying)
     }
 
     private fun setPlayerStatus(isPlaying: Boolean) {
-        song.isPlaying=isPlaying
-        timer.isPlaying=isPlaying
+        song.isPlaying = isPlaying
+        timer.isPlaying = isPlaying
 
         if (isPlaying) {
             binding.songMiniplayerIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
+            mediaPlayer?.start()
         } else {
             binding.songMiniplayerIv.visibility = View.VISIBLE
             binding.songPauseIv.visibility = View.GONE
+            if (mediaPlayer?.isPlaying == true) { // 음악이 재생 중일때만 pause를 해야함.
+                mediaPlayer?.pause()
+            }
         }
     }
 
-    private fun startTimer(){
-        timer=Timer(song.playTime,song.isPlaying)
+    private fun startTimer() {
+        timer = Timer(song.playTime, song.isPlaying)
         timer.start()
-        }
-// 바인딩 변수를 이용해야해서 inner class 로 생성
-    inner class Timer(private val playTime:Int, var isPlaying: Boolean=true):Thread(){
-        private var second : Int=0
-        private var mills:Float=0f
+    }
 
-    override fun run(){
-        super.run()
-        try{
+    // 바인딩 변수를 이용해야해서 inner class 로 생성
+    inner class Timer(private val playTime: Int, var isPlaying: Boolean = true) : Thread() {
+        private var second: Int = 0
+        private var mills: Float = 0f
+
+        override fun run() {
+            super.run()
+            try {
 
 
-        while(true){
+                while (true) {
 
-            if(second>= playTime){
-                break
-            }
-
-            if(isPlaying){
-                sleep(50)
-                mills+=50
-
-                runOnUiThread {
-                    binding.songProgressSb.progress=((mills/playTime)*100).toInt()
-                    // seekbar 구현
-                }
-                if(mills%1000==0f){
-                    runOnUiThread {
-                        binding.songStartTimeTv.text = String.format("%02d:%02d", song.second / 60, song.second % 60)
+                    if (second >= playTime) {
+                        break
                     }
-                    song.second++
+
+                    if (isPlaying) {
+                        sleep(50)
+                        mills += 50
+
+                        runOnUiThread {
+                            binding.songProgressSb.progress = ((mills / playTime) * 100).toInt()
+                            // seekbar 구현
+                        }
+                        if (mills % 1000 == 0f) {
+                            runOnUiThread {
+                                binding.songStartTimeTv.text =
+                                    String.format("%02d:%02d", song.second / 60, song.second % 60)
+                            }
+                            song.second++
+                        }
+                    }
                 }
+            } catch (e: InterruptedException) {
+                Log.d("Song", "쓰레드가 종료되었습니다.")
             }
         }
-        }catch(e: InterruptedException){
-            Log.d("Song","쓰레드가 종료되었습니다.")
-        }
     }
-    }
-/*
-    private fun setRepeatStatus(isRepeat: Boolean) {
-        if (isRepeat) {
-            binding.songRepeatIv.visibility = View.GONE
-            binding.songSelectRepeatIv.visibility = View.VISIBLE
-        } else {
-            binding.songRepeatIv.visibility = View.VISIBLE
-            binding.songSelectRepeatIv.visibility = View.GONE
-        }
+    // 사용자가 포커스를 잃었을 때 음악이 중지
+    override fun onPause() {
+        super.onPause()
+        setPlayerStatus(false)
+        song.second=((binding.songProgressSb.progress*song.playTime)/100)/1000
+        val sharedPreferences=getSharedPreferences("song",MODE_PRIVATE)
+        val editor=sharedPreferences.edit() // 에디터
+        val songJson=gson.toJson(song)
+        editor.putString("song",songJson)
+
+        editor.apply()
     }
 
-    private fun setRandomStatus(isRandom: Boolean) {
-        if (isRandom) {
-            binding.songRandomIv.visibility = View.GONE
-            binding.songSelectRandomIv.visibility = View.VISIBLE
-        } else {
-            binding.songRandomIv.visibility = View.VISIBLE
-            binding.songSelectRandomIv.visibility = View.GONE
-        }
+    override fun onDestroy() {
+        super.onDestroy() // 쓰레드 종료
+        timer.interrupt()
+        mediaPlayer?.release() // 미디어플레이어가 갖고 있던 리소스 해제
+        mediaPlayer=null //미디어 플레이어 해제
     }
-    */
+    /*
+        private fun setRepeatStatus(isRepeat: Boolean) {
+            if (isRepeat) {
+                binding.songRepeatIv.visibility = View.GONE
+                binding.songSelectRepeatIv.visibility = View.VISIBLE
+            } else {
+                binding.songRepeatIv.visibility = View.VISIBLE
+                binding.songSelectRepeatIv.visibility = View.GONE
+            }
+        }
+
+        private fun setRandomStatus(isRandom: Boolean) {
+            if (isRandom) {
+                binding.songRandomIv.visibility = View.GONE
+                binding.songSelectRandomIv.visibility = View.VISIBLE
+            } else {
+                binding.songRandomIv.visibility = View.VISIBLE
+                binding.songSelectRandomIv.visibility = View.GONE
+            }
+        }
+        */
 }
