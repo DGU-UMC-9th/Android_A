@@ -41,6 +41,10 @@ class HomeFragment : Fragment() {
         binding.homeViewpagerVp.adapter = HomeAdaptor
         binding.homeViewpagerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
+        val viewpager = binding.homeViewpagerVp
+        val indicator = binding.homeViewpagerIndicator
+        indicator.setViewPager(viewpager)
+
         return binding.root
     }
 }

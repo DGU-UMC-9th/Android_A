@@ -2,6 +2,7 @@ package com.example.imreallystupid
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,15 +28,23 @@ class MainActivity : AppCompatActivity() {
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
-                val reply = data?.getStringExtra("reply")
-                Toast.makeText(this, reply, Toast.LENGTH_SHORT).show()
+                val sendTime = data?.getIntExtra("sendTime", 0)?.toFloat() ?: 0
+                val playTime = data?.getIntExtra("playTime", 0) ?: 0
+                val progress = if (playTime != 0) ((sendTime.toFloat() / playTime) * 10000).toInt() else 0
+                binding.mainMiniplayerSeekbarSb.progress = progress
             }
         }
-        val intent = Intent(this, SongActivity::class.java)
 
+<<<<<<< Updated upstream
         val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString())
+=======
+
+>>>>>>> Stashed changes
 
         binding.mainMiniplayer.setOnClickListener {
+            val intent = Intent(this, SongActivity::class.java)
+            val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60,false)
+
             intent.putExtra("title",song.title)
             intent.putExtra("singer",song.singer)
             resultLauncher.launch(intent)
