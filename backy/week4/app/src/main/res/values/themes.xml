@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.Week2" parent="Base.Theme.Week2" />
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground"> @drawable/splash</item>
+        <item name="statusBarBackground">@color/transparent</item>
+        <item name="postSplashScreenTheme">@style/Theme.Week2</item>
+    </style>
 </resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/item_locker_albumImg_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/img_album_exp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/item_locker_singer_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가수 이름"
+        android:textSize="12sp"
+        android:textColor="@color/gray_color"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/item_locker_albumImg_iv"
+        app:layout_constraintTop_toTopOf="@id/item_locker_albumImg_iv"
+        app:layout_constraintBottom_toBottomOf="@id/item_locker_albumImg_iv"/>
+
+    <TextView
+        android:id="@+id/item_locker_album_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="앨범 이름"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintStart_toStartOf="@id/item_locker_singer_tv"
+        app:layout_constraintBottom_toTopOf="@id/item_locker_singer_tv"/>
+
+    <TextView
+        android:id="@+id/item_locker_detail_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2021.03.25 | 정규 | 댄스 팝"
+        android:textSize="12sp"
+        android:textColor="@color/gray_color"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/item_locker_singer_tv"
+        app:layout_constraintTop_toBottomOf="@id/item_locker_singer_tv"/>
+
+    <ImageView
+        android:id="@+id/item_song_more_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/btn_player_more"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/item_song_player_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/btn_player_play"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@id/item_song_more_btn"
+        app:layout_constraintTop_toTopOf="@id/item_song_more_btn"
+        app:layout_constraintBottom_toBottomOf="@id/item_song_more_btn"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
