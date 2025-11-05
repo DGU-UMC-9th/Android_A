@@ -2,6 +2,9 @@ package com.rkdgudrn4094.week2
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +18,9 @@ class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private var albumDatas = ArrayList<Album>()
     private var listener : HomeFragmentDataListener?= null
+    //lateinit var timer: Timer
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var sliderRunnable: Runnable
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +36,9 @@ class HomeFragment : Fragment() {
             add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
             add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
         }
+
+        //startTimer()
+
 
         val albumRVAdapter = AlbumRVAdapter(albumDatas)
         binding.homeTodayMusicAlbumRv.adapter = albumRVAdapter
@@ -50,8 +59,14 @@ class HomeFragment : Fragment() {
         val bannerAdapter = BannerVPAdapter(this)
         bannerAdapter.addFragment(BannerFragment(R.drawable.img_first_album_default))
         bannerAdapter.addFragment(BannerFragment(R.drawable.img_first_album_default))
+        bannerAdapter.addFragment(BannerFragment(R.drawable.img_first_album_default))
         binding.homeBannerVp.adapter=bannerAdapter
         binding.homeBannerVp.orientation= ViewPager2.ORIENTATION_HORIZONTAL
+
+        startAutoSlider(bannerAdapter.itemCount)
+
+        val viewPager = binding.homeBannerVp
+        binding.homeBannerCi.setViewPager(viewPager)
 
         return binding.root
     }
@@ -73,6 +88,48 @@ class HomeFragment : Fragment() {
         if (context is HomeFragmentDataListener){
             listener = context
         }
+    }
+
+    /*
+    inner class Timer(): Thread(){
+        private var mills: Float = 0f
+
+        override fun run() {
+            super.run()
+            try{
+                while (true){
+
+                    sleep(50)
+                    mills +=50
+                    if (mills % 3000 == 0f){
+                        binding.homeBannerVp.setCurrentItem((binding.homeBannerVp.currentItem + 1))
+                        mills = 0f
+                        Log.d("Home", "@@MILLS IS 3000@@")
+                    }
+
+
+                }
+            }catch (e: InterruptedException){
+                Log.d("Song", "thread dead ${e.message}")
+            }
+
+        }
+    }
+
+    private fun startTimer(){
+        timer = Timer()
+        timer.start()
+    }
+
+     */
+
+    private fun startAutoSlider(size: Int){
+        sliderRunnable = Runnable{
+            val viewPager = binding.homeBannerVp
+            viewPager.currentItem = (viewPager.currentItem + 1) % size
+            handler.postDelayed(sliderRunnable, 3000)
+        }
+        handler.postDelayed(sliderRunnable, 3000)
     }
 }
 
