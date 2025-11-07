@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/locker_savedAlbum_albumImg_iv"
+        android:src="@drawable/img_album_exp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/locker_savedAlbum_title_tv"
+        android:text="앨범 이름"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/locker_savedAlbum_albumImg_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/locker_savedAlbum_singer_tv"
+        android:text="가수 이름"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/locker_savedAlbum_albumImg_iv"
+        app:layout_constraintTop_toBottomOf="@id/locker_savedAlbum_title_tv"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/locker_savedAlbum_info_tv"
+        android:text="2025.05.15 | 정규 | JPOP"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/locker_savedAlbum_albumImg_iv"
+        app:layout_constraintTop_toBottomOf="@id/locker_savedAlbum_singer_tv"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/locker_savedAlbum_more_iv"
+        android:src="@drawable/btn_player_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="35dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/locker_savedAlbum_play_iv"
+        android:src="@drawable/btn_player_play"
+        app:layout_constraintEnd_toStartOf="@id/locker_savedAlbum_more_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="5dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/locker_savedAlbum_pause_iv"
+        android:src="@drawable/btn_miniplay_mvpause"
+        app:layout_constraintEnd_toStartOf="@id/locker_savedAlbum_more_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="5dp"
+        android:visibility="gone"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

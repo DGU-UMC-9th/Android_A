@@ -22,7 +22,7 @@
 
         <SeekBar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="5dp"
             android:id="@+id/main_miniplayer_seekbar_sb"
             app:layout_constraintBottom_toTopOf="@id/main_miniplayer_play_iv"
             android:progress="0"
@@ -31,7 +31,7 @@
             android:paddingBottom="0dp"
             android:paddingStart="0dp"
             android:background="@null"
-            android:paddingEnd="0dp" />
+            android:paddingEnd="0dp"/>
 
         <TextView
             android:layout_width="wrap_content"

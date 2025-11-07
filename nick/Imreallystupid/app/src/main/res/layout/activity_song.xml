@@ -115,11 +115,6 @@
         android:id="@+id/song_seekbar_sb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< Updated upstream
-        android:id="@+id/song_seekbar_sb"
-        app:layout_constraintTop_toBottomOf="@id/song_linear1"
-        android:layout_marginTop="10dp"/>
-=======
         android:layout_marginTop="10dp"
         android:background="@null"
         android:max="10000"
@@ -146,7 +141,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/song_seekbar_sb"
         android:layout_marginEnd="5dp"/>
->>>>>>> Stashed changes
 
     <LinearLayout
         android:layout_width="match_parent"

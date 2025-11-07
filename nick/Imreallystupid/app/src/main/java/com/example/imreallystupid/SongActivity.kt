@@ -1,41 +1,38 @@
 package com.example.imreallystupid
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.IBinder
 import android.renderscript.ScriptGroup
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.imreallystupid.databinding.ActivitySongBinding
+import com.google.gson.Gson
+import kotlinx.coroutines.Job
 
-private lateinit var binding: ActivitySongBinding
-
-fun setPlayerStatus(isPlaying : Boolean) {
-    if(isPlaying) {
-        binding.songPlayIv.visibility = View.VISIBLE
-        binding.songPauseIv.visibility = View.GONE
-    }
-    else {
-        binding.songPlayIv.visibility = View.GONE
-        binding.songPauseIv.visibility = View.VISIBLE
-    }
-}
 class SongActivity : AppCompatActivity() {
-<<<<<<< Updated upstream
-=======
 
     lateinit var binding: ActivitySongBinding
     lateinit var song : Song
     lateinit var timer: Timer
+    private var mediaPlayer: MediaPlayer? = null
+    private var gson: Gson = Gson()
 
     var sendTime : Int = 0
 
->>>>>>> Stashed changes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val resend = Intent(this, MainActivity::class.java)
+        initSong()
+
 
         binding.songDownIv.setOnClickListener {
             val resultIntent = Intent().apply {
@@ -46,22 +43,16 @@ class SongActivity : AppCompatActivity() {
             finish()
         }
         binding.songPlayIv.setOnClickListener {
+            setPlayerStatus(true)
+        }
+        binding.songPauseIv.setOnClickListener {
             setPlayerStatus(false)
         }
-<<<<<<< Updated upstream
-        binding.songPauseIv.setOnClickListener {
-            setPlayerStatus(true)
-=======
 
         setPlayer(song)
 
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        timer.interrupt()
-    }
 
     private fun initSong() {
         if(intent.hasExtra("title") && intent.hasExtra("singer"))  {
@@ -70,22 +61,48 @@ class SongActivity : AppCompatActivity() {
                 intent.getStringExtra("singer")!!,
                 intent.getIntExtra("second",0),
                 intent.getIntExtra("playTime", 0),
-                intent.getBooleanExtra("isPlaying", false)
+                intent.getBooleanExtra("isPlaying", false),
+                intent.getStringExtra("music")!!
             )
->>>>>>> Stashed changes
         }
+        startTimer()
+    }
 
-        if(intent.hasExtra("title") && intent.hasExtra("singer")) {
-            binding.songTitleTv.text = intent.getStringExtra("title")
-            binding.songSingerTv.text = intent.getStringExtra("singer")
-        }
+    private fun startTimer() {
+        timer = Timer(song.playTime, song.isPlaying)
+        timer.start()
+    }
 
+    private fun setPlayer(song: Song) {
+        binding.songTitleTv.text = intent.getStringExtra("title")
+        binding.songSingerTv.text = intent.getStringExtra("singer")
+        binding.songStartTimeTv.text = String.format("%02d:%02d",song.second / 60, song.second % 60)
+        binding.songEndTimeTv.text = String.format("%02d:%02d",song.playTime / 60, song.playTime % 60)
+        binding.songSeekbarSb.progress = (song.second * 1000 / song.playTime)
+        val music = resources.getIdentifier(song.music, "raw", this.packageName)
+        mediaPlayer = MediaPlayer.create(this, music)
+        setPlayerStatus(song.isPlaying)
 
     }
 
-<<<<<<< Updated upstream
-}
-=======
+    fun setPlayerStatus(isPlaying : Boolean) {
+        song.isPlaying = isPlaying
+        timer.isPlaying = isPlaying
+
+        if(isPlaying) {
+            binding.songPlayIv.visibility = View.GONE
+            binding.songPauseIv.visibility = View.VISIBLE
+            mediaPlayer?.start()
+        }
+        else {
+            binding.songPlayIv.visibility = View.VISIBLE
+            binding.songPauseIv.visibility = View.GONE
+            if(mediaPlayer?.isPlaying == true) {
+                mediaPlayer?.pause()
+            }
+        }
+    }
+
     inner class Timer(private val playTime: Int, var isPlaying: Boolean = true): Thread(){
 
         private var second : Int = 0
@@ -123,6 +140,23 @@ class SongActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        setPlayerStatus(false)
+        song.second = ((binding.songSeekbarSb.progress * song.playTime)/100)/1000
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val songJson = gson.toJson(song)
+        editor.putString("songData",songJson)
+        editor.apply()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer.interrupt()
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
 }
 
->>>>>>> Stashed changes
