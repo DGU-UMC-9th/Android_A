@@ -1,6 +1,8 @@
 package com.example.imreallystupid
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.imreallystupid.databinding.FragmentHomeBinding
 import com.google.gson.Gson
+import kotlinx.coroutines.Runnable
 
 
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
     private var albumData = ArrayList<Album>()
+    private var currentPage = 0
+    private var pageCount = 3
+    private lateinit var viewpager : ViewPager2
+
 
 
     override fun onCreateView(
@@ -75,12 +82,34 @@ class HomeFragment : Fragment() {
         val HomeAdapter = HomeViewAdapter(this)
         binding.homeViewpagerVp.adapter = HomeAdapter
         binding.homeViewpagerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        viewpager = binding.homeViewpagerVp
 
-        val viewpager = binding.homeViewpagerVp
         val indicator = binding.homeViewpagerIndicator
         indicator.setViewPager(viewpager)
 
         return binding.root
+    }
+
+    private val handler = Handler(Looper.getMainLooper())
+
+    private val runnable : Runnable = object : Runnable {
+        override fun run() {
+            if(currentPage == pageCount) {
+                currentPage = 0
+            }
+            viewpager.setCurrentItem(currentPage++, true)
+            handler.postDelayed(this, 3000)
+        }
+
+    }
+    override fun onResume() {
+        super.onResume()
+        handler.postDelayed(runnable, 3000)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(runnable)
     }
 }
 
