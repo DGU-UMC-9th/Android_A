@@ -112,11 +112,35 @@
     </LinearLayout>
 
     <SeekBar
+        android:id="@+id/song_seekbar_sb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/song_seekbar_sb"
-        app:layout_constraintTop_toBottomOf="@id/song_linear1"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:max="10000"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:progress="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/song_linear1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/song_startTime_tv"
+        android:text="00:00"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/song_seekbar_sb"
+        android:layout_marginStart="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/song_endTime_tv"
+        android:text="60:00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/song_seekbar_sb"
+        android:layout_marginEnd="5dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
