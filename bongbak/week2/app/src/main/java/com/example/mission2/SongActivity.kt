@@ -82,14 +82,16 @@ class SongActivity : AppCompatActivity() {
         binding.songSingerNameTv.text = song.singer
         binding.songStartTimeTv.text =
             String.format("%02d:%02d", song.second / 60, song.second % 60)
+
         binding.songEndTimeTv.text = String.format(
             "%02d:%02d",
             song.playTime / 60,
             song.playTime % 60
-        ) // song.second -> song.playTime 수정
-        binding.songProgressSb.progress = (song.second * 1000 / song.playTime)
-        val music = resources.getIdentifier(song.music, "raw", this.packageName)
-        mediaPlayer = MediaPlayer.create(this, music)
+        )
+        binding.songProgressSb.progress = (song.second*100*1000/song.playTime)
+        Log.d("song","second=${song.second}")
+
+        val music=resources.getIdentifier(song.music,"raw",this.packageName)
         setPlayerStatus(song.isPlaying)
     }
 
@@ -118,7 +120,7 @@ class SongActivity : AppCompatActivity() {
     // 바인딩 변수를 이용해야해서 inner class 로 생성
     inner class Timer(private val playTime: Int, var isPlaying: Boolean = true) : Thread() {
         private var second: Int = 0
-        private var mills: Float = 0f
+        private var mills: Float = song.second*1000F
 
         override fun run() {
             super.run()
@@ -152,6 +154,22 @@ class SongActivity : AppCompatActivity() {
                 Log.d("Song", "쓰레드가 종료되었습니다.")
             }
         }
+    }
+
+    override fun onStart(){
+        super.onStart()
+        val sharedPreferences=getSharedPreferences("song",MODE_PRIVATE)
+        val songJson=sharedPreferences.getString("songData",null)
+
+        song=if(songJson==null){
+            Song("라일락","아이유(IU)",0,60,false,"music_lilac")
+
+        }else {
+            gson.fromJson(songJson, song::class.java)
+
+        }
+        setPlayer(song)
+        mediaPlayer?.seekTo(song.second*1000)
     }
     // 사용자가 포커스를 잃었을 때 음악이 중지
     override fun onPause() {
