@@ -44,6 +44,7 @@ class SongActivity : AppCompatActivity() {
 
         initSong()
         setPlayer(song)
+        //Log.d("SongActivity", "from onCreate()")
 
         /*
         val musicServiceIntent = Intent(this, MusicService::class.java).apply{
@@ -55,6 +56,7 @@ class SongActivity : AppCompatActivity() {
         bindService(musicServiceIntent, connection, Context.BIND_AUTO_CREATE)
 
          */
+
 
         binding.songDownIb.setOnClickListener {
             val song = Song(binding.songMusicTitleTv.text.toString(), binding.songSingerNameTv.text.toString())
@@ -69,6 +71,7 @@ class SongActivity : AppCompatActivity() {
         binding.songMiniplayerIv.setOnClickListener {
             //musicService?.playMusic()
             setPlayerStatus(true)
+            Log.d("Activity", "SongActivity, song.second:${song.second}")
         }
         binding.songPauseIv.setOnClickListener {
             //musicService?.pauseMusic()
@@ -102,14 +105,14 @@ class SongActivity : AppCompatActivity() {
         binding.songNextIv.setOnClickListener {
             timer.resetTimer()
             timer.interrupt()
-            timer = Timer(song.playTime, song.isPlaying)
+            timer = Timer(song.playTime, song.second, song.isPlaying)
             timer.start()
             mediaPlayer?.seekTo(0)
         }
         binding.songPreviousIv.setOnClickListener {
             timer.resetTimer()
             timer.interrupt()
-            timer = Timer(song.playTime, song.isPlaying)
+            timer = Timer(song.playTime, song.second, song.isPlaying)
             timer.start()
             mediaPlayer?.seekTo(0)
         }
@@ -146,7 +149,7 @@ class SongActivity : AppCompatActivity() {
     }
 
     private fun startTimer(){
-        timer = Timer(song.playTime, song.isPlaying)
+        timer = Timer(song.playTime, song.second, song.isPlaying)
         timer.start()
     }
 
@@ -191,22 +194,36 @@ class SongActivity : AppCompatActivity() {
         binding.songSingerNameTv.text=intent.getStringExtra("singer")
         binding.songStartTimeTv.text=String.format("%02d:%02d", song.second/60, song.second%60)
         binding.songEndTimeTv.text=String.format("%02d:%02d", song.playTime/60, song.playTime%60)
-        binding.songProgressSb.progress = (song.second * 1000 / song.playTime)
+        binding.songProgressSb.progress = (song.second *100 * 1000 / song.playTime)
+        Log.d("song", "second=${song.second}")
 
         val music = resources.getIdentifier(song.music, "raw", this.packageName)
         mediaPlayer = MediaPlayer.create(this, music)
 
+        /*
+        mediaPlayer?.seekTo(song.second * 1000)*/
+
         setPlayerStatus(song.isPlaying)
+
+        /*
+        timer = Timer(song.playTime, song.second, song.isPlaying)
+        timer.start()*/
     }
 
-    inner class Timer(private val playTime: Int, var isPlaying: Boolean = true): Thread(){
-        private var second: Int = 0
-        private var mills: Float = 0f
+    inner class Timer(private val playTime: Int, var songSecond: Int, var isPlaying: Boolean = true): Thread(){
+        private var second: Int = songSecond
+        private var mills: Float = (second*1000).toFloat()
 
         override fun run() {
             super.run()
             try{
                 while (true){
+                    /*
+                    val currentMills = mediaPlayer!!.currentPosition
+                    val currentSecond: Int = (currentMills / 1000)
+
+                     */
+
                     if (second >= playTime){
                         break
                     }
@@ -223,6 +240,7 @@ class SongActivity : AppCompatActivity() {
                                 binding.songStartTimeTv.text=String.format("%02d:%02d", second/60, second%60)
                             }
                             second++
+                            song.second++
                         }
                     }
                 }
@@ -239,15 +257,21 @@ class SongActivity : AppCompatActivity() {
             binding.songProgressSb.progress=0
             binding.songStartTimeTv.text="00:00"
         }
+
+        fun getMills(): Float{
+            return mills
+            //return ((mills/playTime)*100).toInt()
+        }
     }
 
     override fun onPause() {
         super.onPause()
         setPlayerStatus(false)
-        song.second = ((binding.songProgressSb.progress * song.playTime)/100)/1000
+        //song.second = ((binding.songProgressSb.progress * song.playTime)/100)/1000
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         val songJson = gson.toJson(song)
+        Log.d("Activity", "SongActivity, song.second:${song.second}")
         editor.putString("songData", songJson)
 
         editor.apply()
@@ -278,4 +302,21 @@ class SongActivity : AppCompatActivity() {
     }
 
      */
+
+    override fun onStart() {
+        super.onStart()
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val songJson = sharedPreferences.getString("songData", null)
+
+        song = if (songJson == null){
+            Song("라일락", "아이유(IU)", 0, 60, false, "music_lilac")
+        } else {
+            gson.fromJson(songJson, song::class.java)
+        }
+        //song.second = 0
+
+        setPlayer(song)
+        mediaPlayer?.seekTo(song.second*1000)
+        //Log.d("SongActivity", "from onStart()")
+    }
 }

@@ -38,9 +38,12 @@ class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false, "music_lilac")
+        //val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false, "music_lilac")
 
         binding.mainPlayerCl.setOnClickListener {
+
+
+            Log.d("Activity", "MainActivity, song.second:${song.second}")
             val intent = Intent(this, SongActivity::class.java)
             intent.putExtra("title", song.title)
             intent.putExtra("singer", song.singer)
@@ -125,6 +128,7 @@ class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
             gson.fromJson(songJson, song::class.java)
         }
 
+        //song.second = 0
         setMiniPlayer(song)
     }
 
