@@ -22,30 +22,59 @@ class MusicService : Service() {
     private var currentSongTitle: String = "Unknown Title"
     private var currentSongArtist: String = "Unknown Artist"
 
+
+    val songs = arrayListOf<Song>()
+    lateinit var songDB: SongDatabase
+    var nowPos = 0
+
+    private fun getPlayingSongPosition(songId: Int): Int{
+        for (i in 0 until songs.size){
+            if (songs[i].id == songId){
+                return i
+            }
+        }
+        return 0
+    }
+
     inner class MusicBinder : Binder() {
         fun getService(): MusicService = this@MusicService
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
+        initPlayList()
 
+        val initialSongId = intent?.getIntExtra("songId", 1) ?: 1
         val initialTitle = intent?.getStringExtra("songTitle") ?: "Unknown Title"
         val initialArtist = intent?.getStringExtra("songArtist") ?: "Unknown Artist"
         val isPlaying = intent?.getBooleanExtra("isPlaying", false) ?: false
 
+
+        nowPos = getPlayingSongPosition(initialSongId)
+
+
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.music_lilac)
+            //mediaPlayer = MediaPlayer.create(this, R.raw.music_lilac)
+
+            val music = resources.getIdentifier(songs[nowPos].music, "raw", this.packageName)
+            mediaPlayer = MediaPlayer.create(this, music)
             currentSongTitle = initialTitle
             currentSongArtist = initialArtist
+            /*
             if (isPlaying) {
                 mediaPlayer?.start()
-            }
+            }*/
         }
 
         val notification = createNotification()
         startForeground(NOTI_ID, notification)
 
         return START_STICKY
+    }
+
+    private fun initPlayList(){
+        songDB = SongDatabase.getInstance(this)!!
+        songs.addAll(songDB.songDao().getSongs())
     }
 
     private fun createNotificationChannel() {
@@ -110,5 +139,14 @@ class MusicService : Service() {
         mediaPlayer?.release()
         mediaPlayer = null
         super.onDestroy()
+    }
+
+    fun release() {
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
+    fun createMediaPlayer(music: Int){
+        mediaPlayer = MediaPlayer.create(this, music)
     }
 }

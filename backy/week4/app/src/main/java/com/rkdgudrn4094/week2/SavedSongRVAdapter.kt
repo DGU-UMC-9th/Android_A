@@ -1,12 +1,15 @@
 package com.rkdgudrn4094.week2
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rkdgudrn4094.week2.databinding.ItemSavedsongBinding
 
-class SavedSongRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>() {
+class SavedSongRVAdapter(): RecyclerView.Adapter<SavedSongRVAdapter.ViewHolder>() {
 
+    private val songs = ArrayList<Song>()
     interface MyItemClickListener{
         fun onRemoveAlbum(position: Int)
     }
@@ -16,9 +19,22 @@ class SavedSongRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.
         mItemClickListener = itemClickListener
     }
 
-    fun removeItem(position: Int){
-        albumList.removeAt(position)
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeSong(position: Int){
+        songs.removeAt(position)
         notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addSongs(songs: ArrayList<Song>){
+        this.songs.clear()
+        this.songs.addAll(songs)
+        notifyDataSetChanged()
+
+        var tmp:Int = 0
+        for (i in songs){
+            Log.d("isLike", "${++tmp}: ${i.isLike}")
+        }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SavedSongRVAdapter.ViewHolder {
@@ -28,21 +44,21 @@ class SavedSongRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.
     }
 
     override fun onBindViewHolder(holder: SavedSongRVAdapter.ViewHolder, position: Int) {
-        holder.bind(albumList[position])
+        holder.bind(songs[position])
         holder.binding.itemSongMoreBtn.setOnClickListener {
             mItemClickListener.onRemoveAlbum(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return albumList.size
+        return songs.size
     }
 
     inner class ViewHolder(val binding: ItemSavedsongBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(album: Album){
-            binding.itemSongTitleTv.text = album.title
-            binding.itemSongSingerTv.text = album.singer
-            binding.itemSongAlbumImgIv.setImageResource(album.coverImg!!)
+        fun bind(song: Song){
+            binding.itemSongTitleTv.text = song.title
+            binding.itemSongSingerTv.text = song.singer
+            binding.itemSongAlbumImgIv.setImageResource(song.coverImg!!)
         }
     }
 }
