@@ -22,7 +22,6 @@ class SongActivity : AppCompatActivity() {
     lateinit var binding: ActivitySongBinding
     lateinit var timer: Timer
     private var mediaPlayer: MediaPlayer? = null
-    private var gson: Gson = Gson()
 
     val songs = arrayListOf<Song>()
     lateinit var songDB: SongDatabase
@@ -47,7 +46,7 @@ class SongActivity : AppCompatActivity() {
         val songId = spf.getInt("songId",0)
 
         nowPos = getPlayingSongPosition(songId)
-
+        Log.d("check3",nowPos.toString())
         Log.d("now Song ID",songs[nowPos].id.toString())
         startTimer()
         setPlayer(songs[nowPos])

@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
 
         inputDummySong()
 
+        val songDB = SongDatabase.getInstance(this)!!
+        songs.addAll(songDB.songDao().getSongs())
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragmentContainer, HomeFragment(), null)
             .commit()
@@ -86,14 +89,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        binding.mainMiniplayer.setOnClickListener {
-            val editor = getSharedPreferences("song",MODE_PRIVATE).edit()
-            editor.putInt("songId",song.id)
-            editor.apply()
 
-            val intent = Intent(this, SongActivity::class.java)
-            startActivity(intent)
-        }
 
 
         binding.mainMiniplayerNextIv.setOnClickListener {
@@ -101,6 +97,16 @@ class MainActivity : AppCompatActivity() {
         }
         binding.mainMiniplayerPreviousIv.setOnClickListener {
             moveSong(-1)
+        }
+
+        binding.mainMiniplayer.setOnClickListener {
+            val editor = getSharedPreferences("song",MODE_PRIVATE).edit()
+            editor.putInt("songId",songs[nowPos].id)
+            Log.d("send",songs[nowPos].id.toString())
+            editor.apply()
+
+            val intent = Intent(this, SongActivity::class.java)
+            startActivity(intent)
         }
 
 
