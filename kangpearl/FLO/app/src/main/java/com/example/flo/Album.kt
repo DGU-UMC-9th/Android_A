@@ -10,3 +10,4 @@ data class Album(
     var singer: String = "",
     var coverImg: Int? = null
 )
+//테스트
