@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flo.databinding.FragmentAlbumBinding
 import com.google.gson.Gson
+//테스트
 
 class AlbumFragment : Fragment() {
     lateinit var binding: FragmentAlbumBinding

@@ -24,3 +24,4 @@ class SplashActivity : AppCompatActivity() {
         }, 1500)
     }
 }
+//테스트
