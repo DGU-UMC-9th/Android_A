@@ -73,7 +73,7 @@ class SongActivity : AppCompatActivity() {
     }
 
     private fun setLike(isLike: Boolean){
-        songs[nowPos].isLike!=isLike
+        songs[nowPos].isLike=!isLike
         songDB.songDao().updateIsLikeById(!isLike,songs[nowPos].id)
 
         if(!isLike){
@@ -85,11 +85,11 @@ class SongActivity : AppCompatActivity() {
     }
 
     private fun moveSong(direct: Int){
-        if(nowPos*direct<0){
+        if(nowPos+direct<0){
             Toast.makeText(this,"first song",Toast.LENGTH_SHORT).show()
             return
         }
-        if(nowPos*direct>=songs.size){
+        if(nowPos+direct>=songs.size){
             Toast.makeText(this,"Last song", Toast.LENGTH_SHORT).show()
             return
         }
