@@ -57,6 +57,9 @@ class SongActivity : AppCompatActivity() {
         binding.songPreviousIv.setOnClickListener {
             moveSong(-1)
         }
+        binding.songLikeIv.setOnClickListener{
+            setLike(songs[nowPos].isLike)
+        }
     }
     private fun initSong() {
        val spf=getSharedPreferences("song",MODE_PRIVATE)
@@ -67,6 +70,18 @@ class SongActivity : AppCompatActivity() {
         Log.d("now Song Id", songs[nowPos].id.toString())
         startTimer()
         setPlayer(songs[nowPos])
+    }
+
+    private fun setLike(isLike: Boolean){
+        songs[nowPos].isLike!=isLike
+        songDB.songDao().updateIsLikeById(!isLike,songs[nowPos].id)
+
+        if(!isLike){
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
+        }
+        else{
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)
+        }
     }
 
     private fun moveSong(direct: Int){
@@ -116,6 +131,14 @@ class SongActivity : AppCompatActivity() {
         Log.d("song","second=${song.second}")
 
         val music=resources.getIdentifier(song.music,"raw",this.packageName)
+
+        if (song.isLike){
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
+        }
+        else{
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)
+        }
+
         setPlayerStatus(song.isPlaying)
     }
 
@@ -180,29 +203,7 @@ class SongActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onStart(){
-//        super.onStart()
-//        val sharedPreferences=getSharedPreferences("song",MODE_PRIVATE)
-//        val songJson=sharedPreferences.getString("songData",null)
-//
-//        songs[nowPos]=if(songJson==null){
-//            Song(
-//                title = "라일락",
-//                singer = "아이유(IU)",
-//                second = 0,
-//                playTime = 60,
-//                isPlaying = false,
-//                music = "music_lilac",
-//                coverImg = R.drawable.img_album_exp
-//            )
-//
-//        }else {
-//            gson.fromJson(songJson, songs[nowPos]::class.java)
-//
-//        }
-//        setPlayer(songs[nowPos])
-//        mediaPlayer?.seekTo(songs[nowPos].second*1000)
-//    }
+
     // 사용자가 포커스를 잃었을 때 음악이 중지
     override fun onPause() {
         super.onPause()

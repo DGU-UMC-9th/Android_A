@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class LockerFragment : Fragment() {
 
     lateinit var binding: FragmentLockerBinding
-
+    lateinit var songDB: SongDatabase
     private val information = arrayListOf("저장한 곡", "음악파일", "저장앨범")
 
     override fun onCreateView(
@@ -24,10 +24,12 @@ class LockerFragment : Fragment() {
         val lockerAdapter = LockerVPAdapter(this)
         binding.vpLockerLockerFragment.adapter = lockerAdapter
 
-        TabLayoutMediator(binding.lockerContentTb, binding.vpLockerLockerFragment) { tab, position ->
+        TabLayoutMediator(
+            binding.lockerContentTb,
+            binding.vpLockerLockerFragment
+        ) { tab, position ->
             tab.text = information[position]
         }.attach()
-
         return binding.root
     }
 }
