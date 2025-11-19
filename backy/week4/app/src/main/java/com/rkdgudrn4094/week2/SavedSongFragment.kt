@@ -10,6 +10,7 @@ import com.rkdgudrn4094.week2.databinding.FragmentSavedsongBinding
 
 class SavedSongFragment: Fragment() {
     lateinit var binding: FragmentSavedsongBinding
+    lateinit var songDB: SongDatabase
     private var albumDatas = ArrayList<Album>()
 
     override fun onCreateView(
@@ -18,6 +19,8 @@ class SavedSongFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding =FragmentSavedsongBinding.inflate(inflater,container,false)
+        songDB = SongDatabase.getInstance(requireContext())!!
+        /*
         albumDatas.apply{
             add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
             add(Album("Lilac", "아이유 (IU)", R.drawable.img_album_exp2))
@@ -25,20 +28,35 @@ class SavedSongFragment: Fragment() {
             add(Album("Boy with Luv", "방탄소년단 (BTS)", R.drawable.img_album_exp4))
             add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
             add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
-        }
+        }*/
 
-        val savedSongRVAdapter = SavedSongRVAdapter(albumDatas)
+
+
+
+
+
+
+
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView(){
+        val savedSongRVAdapter = SavedSongRVAdapter()
         binding.savedsongSongRv.adapter = savedSongRVAdapter
         binding.savedsongSongRv.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL, false)
 
+        savedSongRVAdapter.addSongs(songDB.songDao().getLikedSongs(true) as ArrayList<Song>)
+
         savedSongRVAdapter.setMyItemClickListener(object: SavedSongRVAdapter.MyItemClickListener{
             override fun onRemoveAlbum(position: Int){
-                savedSongRVAdapter.removeItem(position)
+                savedSongRVAdapter.removeSong(position)
             }
         })
-
-
-        return binding.root
     }
 }
