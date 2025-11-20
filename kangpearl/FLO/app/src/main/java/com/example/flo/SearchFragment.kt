@@ -1,5 +1,5 @@
 package com.example.flo
-//테스트//테스트
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

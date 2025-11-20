@@ -1,5 +1,5 @@
 package com.example.flo
-//테스트//테스트
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +10,7 @@ class SavedSongRVAdapter(private val songList: ArrayList<Song>) : RecyclerView.A
     interface MyItemClickListener {
         fun onRemoveSong(songId: Int)
     }
+
     private lateinit var mItemClickListener: MyItemClickListener
     fun setMyItemClickListener(itemClickListener: MyItemClickListener) {
         mItemClickListener = itemClickListener
@@ -23,7 +24,9 @@ class SavedSongRVAdapter(private val songList: ArrayList<Song>) : RecyclerView.A
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(songList[position])
         holder.binding.itemSavedSongMoreIv.setOnClickListener {
-            mItemClickListener.onRemoveSong(songList[position].id)
+            if (::mItemClickListener.isInitialized) {
+                mItemClickListener.onRemoveSong(songList[position].id)
+            }
             removeSong(position)
         }
     }

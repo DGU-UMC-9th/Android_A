@@ -1,5 +1,5 @@
 package com.example.flo
-//테스트//테스트
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
