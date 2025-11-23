@@ -20,6 +20,7 @@ class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private val albumDatas = ArrayList<Album>()
     private val handler = Handler(Looper.getMainLooper())
+    private lateinit var songDB : SongDatabase
     private lateinit var sliderRunnable: Runnable
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,15 +49,10 @@ class HomeFragment : Fragment() {
 //                .replace(R.id.main_frm , AlbumFragment())
 //                .commitAllowingStateLoss()
 //        }
+        // 데이터 리스트 생성 더미 데이터
+        songDB=SongDatabase.getInstance(requireContext())!!
+        albumDatas.addAll(songDB.AlbumDao().getAlbums())
 
-        albumDatas.apply {
-            add(Album("Butter", "방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Album("Lilac", "아이유(IU)", R.drawable.img_album_exp2))
-            add(Album("이상비행", "한로로(HANRORO)", R.drawable.img_album_exp3))
-            add(Album("집", "한로로(HANRORO)", R.drawable.img_album_exp4))
-            add(Album("자몽살구클럽", "한로로(HANRORO)", R.drawable.img_album_exp5))
-            add(Album("입춘", "한로로(HANRORO)", R.drawable.img_album_exp6))
-        }
         val albumRVAdapter = AlbumRVAdapter(albumDatas)
         binding.homeTodayMusicAlbumRv.adapter = albumRVAdapter
         binding.homeTodayMusicAlbumRv.layoutManager =

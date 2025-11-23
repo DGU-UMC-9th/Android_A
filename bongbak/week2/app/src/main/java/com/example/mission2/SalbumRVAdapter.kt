@@ -1,61 +1,59 @@
 package com.example.mission2
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mission2.databinding.ItemSalbumBinding
 
-class SalbumRVAdapter(private val salbumList: ArrayList<Salbum>): RecyclerView.Adapter<SalbumRVAdapter.ViewHolder>() {
+class SalbumRVAdapter (): RecyclerView.Adapter<SalbumRVAdapter.ViewHolder>() {
+    private val albums = ArrayList<Album>()
 
-    var onRemoveClick: ((Int) -> Unit)? = null
-    var onItemPlayClick: ((Int) -> Unit)? = null
-    var onItemPauseClick: ((Int) -> Unit)? = null
+    interface MyItemClickListener{
+        fun onRemoveSong(songId: Int)
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemSalbumBinding=
-            ItemSalbumBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+    private lateinit var mItemClickListener: MyItemClickListener
+
+    fun setMyItemClickListener(itemClickListener: MyItemClickListener){
+        mItemClickListener = itemClickListener
+    }
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int):SalbumRVAdapter.ViewHolder {
+        val binding: ItemSalbumBinding = ItemSalbumBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = salbumList.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(salbumList[position])
-    }
-
-    fun removeItem(position:Int){
-        salbumList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, salbumList.size)
-    }
-
-    inner class ViewHolder(val binding: ItemSalbumBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(salbum: Salbum) {
-            binding.itemSalbumTitleTv.text = salbum.title
-            binding.itemSalbumInfoTv.text = salbum.info
-            binding.itemSalbumCoverIv.setImageResource(salbum.coverImg!!)
-
-            if (salbum.isPlaying) {
-                binding.itemSalbumPlayIv.visibility = View.GONE
-                binding.itemSalbumPauseIv.visibility = View.VISIBLE
-            } else {
-                binding.itemSalbumPlayIv.visibility = View.VISIBLE
-                binding.itemSalbumPauseIv.visibility = View.GONE
-            }
-
-            binding.itemSalbumPlayIv.setOnClickListener {
-                onItemPlayClick?.invoke(adapterPosition)
-            }
-
-            binding.itemSalbumPauseIv.setOnClickListener {
-                onItemPauseClick?.invoke(adapterPosition)
-            }
-
-            binding.itemSalbumMoreIv.setOnClickListener {
-                onRemoveClick?.invoke(adapterPosition)
-            }
+    override fun onBindViewHolder(holder: SalbumRVAdapter.ViewHolder, position: Int) {
+        holder.bind(albums[position])
+        holder.binding.itemSalbumMoreIv.setOnClickListener {
+            mItemClickListener.onRemoveSong(albums[position].id)
+            removeSong(position)
         }
     }
+
+    override fun getItemCount(): Int = albums.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addAlbums(albums: ArrayList<Album>) {
+        this.albums.clear()
+        this.albums.addAll(albums)
+
+        notifyDataSetChanged()
+    }
+
+    fun removeSong(position: Int){
+        albums.removeAt(position)
+        notifyDataSetChanged()
+    }
+
+    inner class ViewHolder(val binding: ItemSalbumBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(album: Album){
+            binding.itemSalbumCoverIv.setImageResource(album.coverImg!!)
+            binding.itemSalbumTitleTv.text = album.title
+            binding.itemSalbumNameTv.text = album.singer
+        }
+    }
+
 }

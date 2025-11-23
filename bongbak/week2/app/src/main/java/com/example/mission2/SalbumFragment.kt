@@ -1,17 +1,18 @@
 package com.example.mission2
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mission2.databinding.FragmentSalbumBinding
 
-class SalbumFragment: Fragment() {
+class SalbumFragment : Fragment() {
     lateinit var binding: FragmentSalbumBinding
-    private val salbumDatas = ArrayList<Salbum>()
-    private lateinit var salbumRVAdapter: SalbumRVAdapter
+    lateinit var albumDB: SongDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,35 +21,38 @@ class SalbumFragment: Fragment() {
     ): View? {
         binding = FragmentSalbumBinding.inflate(inflater, container, false)
 
-        setupRecyclerView()
+        albumDB = SongDatabase.getInstance(requireContext())!!
 
         return binding.root
     }
 
-    private fun setupRecyclerView() {
-        salbumDatas.apply {
-            add(Salbum("Butter", "방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Salbum("LILAC", "아이유(IU)", R.drawable.img_album_exp2))
-            add(Salbum("Butter(instrumental)", "한로로", R.drawable.img_album_exp3))
-            add(Salbum("Permission to Dance(instrumental)", "한로로", R.drawable.img_album_exp4))
-        }
+    override fun onStart() {
+        super.onStart()
+        initRecyclerview()
+    }
 
-        salbumRVAdapter = SalbumRVAdapter(salbumDatas)
-        binding.lockerSalbumRv.adapter = salbumRVAdapter
-        binding.lockerSalbumRv.layoutManager = LinearLayoutManager(context)
+    private fun initRecyclerview(){
+        binding.lockerSalbumRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        salbumRVAdapter.onItemPlayClick = { position ->
-            salbumDatas[position].isPlaying = true
-            salbumRVAdapter.notifyItemChanged(position)
-        }
+        val albumRVAdapter = SalbumRVAdapter()
+        //리스너 객체 생성 및 전달
 
-        salbumRVAdapter.onItemPauseClick = { position ->
-            salbumDatas[position].isPlaying = false
-            salbumRVAdapter.notifyItemChanged(position)
-        }
+        albumRVAdapter.setMyItemClickListener(object : SalbumRVAdapter.MyItemClickListener{
+            override fun onRemoveSong(songId: Int) {
+                albumDB.AlbumDao().getLikedAlbums(getJwt())
+            }
+        })
 
-        salbumRVAdapter.onRemoveClick = { position ->
-            salbumRVAdapter.removeItem(position)
-        }
+        binding.lockerSalbumRv.adapter = albumRVAdapter
+
+        albumRVAdapter.addAlbums(albumDB.AlbumDao().getLikedAlbums(getJwt()) as ArrayList)
+    }
+
+    private fun getJwt() : Int {
+        val spf = activity?.getSharedPreferences("auth" , AppCompatActivity.MODE_PRIVATE)
+        val jwt = spf!!.getInt("jwt", 0)
+        Log.d("MAIN_ACT/GET_JWT", "jwt_token: $jwt")
+
+        return jwt
     }
 }
