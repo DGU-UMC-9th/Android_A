@@ -1,15 +1,41 @@
 package com.example.mission2
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnAttach
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mission2.databinding.FragmentHomeBinding
+import com.google.gson.Gson
+import me.relex.circleindicator.CircleIndicator3
+
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
+    private val albumDatas = ArrayList<Album>()
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var songDB : SongDatabase
+    private lateinit var sliderRunnable: Runnable
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnSongPlayListener) {
+            songPlayListener = context
+        } else {
+            throw RuntimeException("$context must implement OnSongPlayListener")
+        }
+    }
+
+    interface OnSongPlayListener {
+        fun onSongPlayed(title: String?, singer: String?)
+    }
+
+    private lateinit var songPlayListener: OnSongPlayListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,26 +44,74 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.homeAlbumImgIv1.setOnClickListener {
-            (context as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frm , AlbumFragment())
-                .commitAllowingStateLoss()
-        }
+//        binding.homeAlbumImgIv1.setOnClickListener {
+//            (context as MainActivity).supportFragmentManager.beginTransaction()
+//                .replace(R.id.main_frm , AlbumFragment())
+//                .commitAllowingStateLoss()
+//        }
+        // 데이터 리스트 생성 더미 데이터
+        songDB=SongDatabase.getInstance(requireContext())!!
+        albumDatas.addAll(songDB.AlbumDao().getAlbums())
 
-        val bannerAdapter= BannerVPAdapter(this)
+        val albumRVAdapter = AlbumRVAdapter(albumDatas)
+        binding.homeTodayMusicAlbumRv.adapter = albumRVAdapter
+        binding.homeTodayMusicAlbumRv.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        albumRVAdapter.setMyItemClickListener(object : AlbumRVAdapter.MyItemClickListener {
+            override fun onItemClick(album: Album) {
+                changeAlbumFragment(album)
+            }
+
+            override fun onRemoveAlbum(position: Int) {
+                albumRVAdapter.removeItem(position)
+            }
+
+            override fun onPlayClick(album: Album) {
+                songPlayListener.onSongPlayed(album.title, album.singer)
+            }
+        })
+
+
+        val bannerAdapter = BannerVPAdapter(this)
         bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp))
         bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp2))
-        binding.homeBannerVp.adapter=bannerAdapter
-        binding.homeBannerVp.orientation= ViewPager2.ORIENTATION_HORIZONTAL
+        binding.homeBannerVp.adapter = bannerAdapter
+        binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        val homePannelAdapter= HomePannelVPAdapter(this)
+
+        val homePannelAdapter = HomePannelVPAdapter(this)
         homePannelAdapter.addFragment(HomePannelFragment(R.drawable.img_first_album_default))
         homePannelAdapter.addFragment(HomePannelFragment(R.drawable.img_second_album))
-        homePannelAdapter.addFragment(HomePannelFragment(R.drawable.img_third_album))
-        binding.homePannelBackgroundVp.adapter=homePannelAdapter
-        binding.homePannelBackgroundVp.orientation=ViewPager2.ORIENTATION_HORIZONTAL
+        binding.homePannelBackgroundVp.adapter = homePannelAdapter
+        binding.homePannelBackgroundVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.homePannelCi.setViewPager(binding.homePannelBackgroundVp)
+
+        startAutoSlider(homePannelAdapter.itemCount)
 
         return binding.root
     }
 
+    private fun changeAlbumFragment(album: Album) {
+        (context as MainActivity).supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, AlbumFragment().apply {
+                arguments = Bundle().apply {
+                    val gson = Gson()
+                    val albumJson = gson.toJson(album)
+                    putString("album", albumJson)
+                }
+            })
+            .commitAllowingStateLoss()
+    }
+
+    private fun startAutoSlider(size: Int) {
+        sliderRunnable = Runnable {
+            val viewPager = binding.homePannelBackgroundVp
+            viewPager.currentItem = (viewPager.currentItem + 1) % size
+            handler.postDelayed(sliderRunnable, 3000)
+        }
+        handler.postDelayed(sliderRunnable, 3000)
+    }
+
 }
+
