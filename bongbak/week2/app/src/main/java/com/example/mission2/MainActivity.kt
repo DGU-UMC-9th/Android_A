@@ -144,8 +144,6 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
         val allSongs = songDB.songDao().getSongs()
 
         if (allSongs.isNotEmpty()) {
-            songs.clear()
-            songs.addAll(allSongs)
             return
         }
         songDB.songDao().insert(
