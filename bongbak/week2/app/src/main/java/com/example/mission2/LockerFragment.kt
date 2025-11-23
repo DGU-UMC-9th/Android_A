@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.mission2.databinding.FragmentLockerBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlin.apply
-import kotlin.collections.remove
 
 class LockerFragment : Fragment() {
 
