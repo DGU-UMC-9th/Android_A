@@ -8,7 +8,7 @@ import android.widget.Toast
 import com.example.mission2.databinding.ActivityMainBinding
 import com.google.gson.Gson
 
-class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
+class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener,TestView {
 
     lateinit var binding: ActivityMainBinding
     private var song:Song = Song()
@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
         initBottomNavigation()
 
         binding.mainPlayerCl.setOnClickListener {
+            checkJwt()
             val editor=getSharedPreferences("song",MODE_PRIVATE).edit()
             editor.putInt("songId",song.id)
             editor.apply()
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
         binding.mainPreviousIv.setOnClickListener {
             moveSong(-1)
         }
+        Log.d("MAIN/JWT_TO_SERVER",getJwt().toString())
 
     }
     override fun onSongPlayed(title: String?, singer: String?){
@@ -120,6 +122,27 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
         binding.mainMiniplayerSingerTv.text=song.singer
         binding.mainMiniplayerProgressSb.progress=(song.second*100000)/song.playTime
     }
+    private fun checkJwt() {
+        val spf = getSharedPreferences("auth", MODE_PRIVATE)
+        val jwt = spf.getString("jwt", "")
+
+        if (jwt.isNullOrEmpty()) {
+            Toast.makeText(this, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
+        val authService = AuthService()
+        authService.setTestView(this)
+        authService.testApi(jwt!!)
+    }
+
+    private fun getJwt(): String? {
+        val spf = this.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+
+        return spf!!.getString("jwt", "")
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -273,6 +296,14 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnSongPlayListener {
             )
         )
 
+    }
+
+    override fun onTestSuccess(message: String) {
+        Toast.makeText(this, "성공! $message", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onTestFailure(message: String) {
+        Toast.makeText(this, "실패.. $message", Toast.LENGTH_SHORT).show()
     }
 
 }
