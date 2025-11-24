@@ -28,7 +28,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@+id/search_tv"
+        app:layout_constraintTop_toBottomOf="@+id/look_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
