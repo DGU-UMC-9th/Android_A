@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rkdgudrn4094.week2.databinding.ItemLockerBinding
 
-class SavedAlbumRVAdapter(private val albumList: ArrayList<Album>): RecyclerView.Adapter<SavedAlbumRVAdapter.ViewHolder>() {
+class SavedAlbumRVAdapter(/*private val albumList: ArrayList<Album>*/): RecyclerView.Adapter<SavedAlbumRVAdapter.ViewHolder>() {
+    private val albums = ArrayList<Album>()
     interface MyItemClickListener{
         fun onRemoveAlbum(position: Int)
     }
@@ -14,8 +15,16 @@ class SavedAlbumRVAdapter(private val albumList: ArrayList<Album>): RecyclerView
         myItemClickListener = itemClickListener
     }
 
+    fun addAlbums(albums: ArrayList<Album>){
+        this.albums.clear()
+        this.albums.addAll(albums)
+
+        notifyDataSetChanged()
+    }
+
     fun removeItem(position: Int){
-        albumList.removeAt(position)
+        albums.removeAt(position)
+        //albumList.removeAt(position)
         notifyDataSetChanged()
     }
 
@@ -31,18 +40,21 @@ class SavedAlbumRVAdapter(private val albumList: ArrayList<Album>): RecyclerView
     }
 
     override fun onBindViewHolder(holder: SavedAlbumRVAdapter.ViewHolder, position: Int) {
-        holder.bind(albumList[position], position)
+        holder.bind(albums[position])
+        //holder.bind(albumList[position], position)
         holder.itemView.setOnClickListener {
             myItemClickListener.onRemoveAlbum(position)
+            removeItem(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return albumList.size
+        //return albumList.size
+        return albums.size
     }
 
     inner class ViewHolder(val binding: ItemLockerBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(album: Album, pos: Int){
+        fun bind(album: Album/*, pos: Int*/){
             binding.itemLockerAlbumTv.text = album.title
             binding.itemLockerSingerTv.text = album.singer
             binding.itemLockerAlbumImgIv.setImageResource(album.coverImg!!)

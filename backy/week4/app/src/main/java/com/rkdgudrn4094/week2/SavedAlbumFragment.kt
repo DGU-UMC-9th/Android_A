@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkdgudrn4094.week2.databinding.FragmentSavedalbumBinding
@@ -11,7 +12,8 @@ import com.rkdgudrn4094.week2.databinding.FragmentSavedalbumBinding
 
 class SavedAlbumFragment: Fragment(){
     lateinit var binding: FragmentSavedalbumBinding
-    private var albumDatas = ArrayList<Album>()
+    lateinit var albumDB: SongDatabase
+    //private var albumDatas = ArrayList<Album>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,6 +21,7 @@ class SavedAlbumFragment: Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSavedalbumBinding.inflate(inflater, container, false)
+        /*
         albumDatas.apply{
             add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
             add(Album("Lilac", "아이유 (IU)", R.drawable.img_album_exp2))
@@ -28,18 +31,33 @@ class SavedAlbumFragment: Fragment(){
             add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
         }
 
-        val savedAlbumRVAdapter = SavedAlbumRVAdapter(albumDatas)
-        binding.savedAlbumAlbumRv.adapter = savedAlbumRVAdapter
+         */
+        albumDB = SongDatabase.getInstance(requireContext())!!
+        val savedAlbumRVAdapter = SavedAlbumRVAdapter(/*albumDatas*/)
+
+
+
         binding.savedAlbumAlbumRv.layoutManager = LinearLayoutManager(
             context, LinearLayoutManager.VERTICAL, false
         )
 
         savedAlbumRVAdapter.setMyItemClickListener(object: SavedAlbumRVAdapter.MyItemClickListener{
             override fun onRemoveAlbum(position: Int) {
-                savedAlbumRVAdapter.removeItem(position)
+                //savedAlbumRVAdapter.removeItem(position)
+                val albumId = albumDB.albumDao().getLikedAlbums(getJwt())[position].id
+                albumDB.albumDao().disLikedAlbum(getJwt(), albumId)
             }
         })
 
+        binding.savedAlbumAlbumRv.adapter = savedAlbumRVAdapter
+
+        savedAlbumRVAdapter.addAlbums(albumDB.albumDao().getLikedAlbums(getJwt()) as ArrayList)
+
         return binding.root
+    }
+
+    private fun getJwt(): Int{
+        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("jwt", 0)
     }
 }
