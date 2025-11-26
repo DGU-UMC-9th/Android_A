@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.rkdgudrn4094.week2.databinding.ActivityLoginBinding
 
-class LoginActivity: AppCompatActivity() {
+class LoginActivity: AppCompatActivity(), LoginView {
     lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +39,7 @@ class LoginActivity: AppCompatActivity() {
         val email: String = binding.loginIdEt.text.toString() + '@' + binding.loginDirectInputEt.text.toString()
         val pwd: String = binding.loginPasswordEt.text.toString()
 
+        /*
         val songDB = SongDatabase.getInstance(this)!!
         val user = songDB.userDao().getUser(email, pwd)
 
@@ -46,7 +47,11 @@ class LoginActivity: AppCompatActivity() {
             Log.d("LOGIN_ACT/GET_USER", "userId: ${user.id}, $user")
             saveJwt(user.id)
             startMainActivity()
-        }
+        }*/
+        val authService = AuthService()
+        authService.setLoginView(this)
+
+        authService.login(User("", email, pwd))
 
         Toast.makeText(this, "회원 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
     }
@@ -59,8 +64,30 @@ class LoginActivity: AppCompatActivity() {
         editor.apply()
     }
 
+    private fun saveJwt2(jwt: String){
+        val spf = getSharedPreferences("auth2", MODE_PRIVATE)
+        val editor = spf.edit()
+
+        editor.putString("jwt", jwt)
+        editor.apply()
+    }
+
     private fun startMainActivity(){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onLoginSuccess(code: String, data: LoginData) {
+        Log.d("LOGIN","code:${code}")
+        when(code){
+            "COMMON200_1"->{
+                saveJwt2(data.accessToken)
+                startMainActivity()
+            }
+        }
+    }
+
+    override fun onLoginFailure() {
+        // 로그인 실패 처리
     }
 }
