@@ -17,7 +17,7 @@ import com.rkdgudrn4094.week2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
     private val getResultText = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        result ->
+            result ->
         if (result.resultCode == Activity.RESULT_OK){
             val title = result.data?.getStringExtra("title")
             val singer = result.data?.getStringExtra("singer")
