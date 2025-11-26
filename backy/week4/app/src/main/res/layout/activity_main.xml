@@ -93,7 +93,22 @@
         </LinearLayout>
 
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/main_token_test_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Token 테스트"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <SeekBar
         android:id="@+id/main_progress_sb"
         android:layout_width="match_parent"

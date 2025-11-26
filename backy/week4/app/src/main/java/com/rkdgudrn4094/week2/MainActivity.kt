@@ -12,7 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.gson.Gson
 import com.rkdgudrn4094.week2.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
+class MainActivity : AppCompatActivity(), HomeFragmentDataListener, TestView {
     private val getResultText = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result ->
         if (result.resultCode == Activity.RESULT_OK){
@@ -45,6 +45,10 @@ class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
 
             val intent = Intent(this, SongActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.mainTokenTestTv.setOnClickListener {
+            testToken()
         }
 
         initBottomNavigation()
@@ -147,6 +151,24 @@ class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
     private fun getJwt(): String?{
         val spf = this.getSharedPreferences("auth2", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getString("jwt", "")
+    }
+
+    override fun onTestSuccess(message: String) {
+        Toast.makeText(this, "msg: ${message}", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onTestFailure() {
+        //테스트 실패 코드
+    }
+
+    private fun testToken(){
+        val authService = AuthService()
+        authService.setTestView(this)
+
+        val token: String=getJwt()!!
+        Log.d("MAIN", "getJwt: ${token}")
+
+        authService.test(token)
     }
 
 
