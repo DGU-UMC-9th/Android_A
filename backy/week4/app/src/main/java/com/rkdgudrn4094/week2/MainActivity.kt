@@ -9,15 +9,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import com.rkdgudrn4094.week2.databinding.ActivityMainBinding
-//import kotlin.jvm.java
 
-class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
+class MainActivity : AppCompatActivity(), HomeFragmentDataListener, TestView {
     private val getResultText = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        result ->
+            result ->
         if (result.resultCode == Activity.RESULT_OK){
             val title = result.data?.getStringExtra("title")
             val singer = result.data?.getStringExtra("singer")
@@ -41,23 +38,7 @@ class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
         inputDummySongs()
         inputDummyAlbums()
 
-        //val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false, "music_lilac")
-
         binding.mainPlayerCl.setOnClickListener {
-
-            /*
-            Log.d("Activity", "MainActivity, song.second:${song.second}")
-            val intent = Intent(this, SongActivity::class.java)
-            intent.putExtra("title", song.title)
-            intent.putExtra("singer", song.singer)
-            intent.putExtra("second", song.second)
-            intent.putExtra("playTime", song.playTime)
-            intent.putExtra("isPlaying", song.isPlaying)
-            intent.putExtra("music", song.music)
-            getResultText.launch(intent)
-
-             */
-
             val editor = getSharedPreferences("song", MODE_PRIVATE).edit()
             editor.putInt("songId", song.id)
             editor.apply()
@@ -66,7 +47,13 @@ class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
             startActivity(intent)
         }
 
+        binding.mainTokenTestTv.setOnClickListener {
+            testToken()
+        }
+
         initBottomNavigation()
+
+        Log.d("MAIN/JWT_TO_SERVER", getJwt().toString())
     }
 
     private fun initBottomNavigation(){
@@ -161,6 +148,28 @@ class MainActivity : AppCompatActivity(), HomeFragmentDataListener {
         Log.d("OnStart song ID", song.second.toString())
     }
 
+    private fun getJwt(): String?{
+        val spf = this.getSharedPreferences("auth2", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getString("jwt", "")
+    }
+
+    override fun onTestSuccess(message: String) {
+        Toast.makeText(this, "msg: ${message}", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onTestFailure() {
+        //테스트 실패 코드
+    }
+
+    private fun testToken(){
+        val authService = AuthService()
+        authService.setTestView(this)
+
+        val token: String=getJwt()!!
+        Log.d("MAIN", "getJwt: ${token}")
+
+        authService.test(token)
+    }
 
 
     private fun inputDummySongs(){
