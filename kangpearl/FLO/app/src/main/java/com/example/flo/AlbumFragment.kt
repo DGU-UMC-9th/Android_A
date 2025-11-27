@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flo.databinding.FragmentAlbumBinding
@@ -20,6 +22,7 @@ class AlbumFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
+
         songDB = SongDatabase.getInstance(requireContext())!!
 
         val albumJson = arguments?.getString("album")
@@ -40,15 +43,30 @@ class AlbumFragment : Fragment() {
         binding.albumMusicTitleTv.text = album.title
         binding.albumSingerNameTv.text = album.singer
 
-        isLiked = album.isLike
+        val dbAlbum = songDB.albumDao().getAlbum(album.id)
+        isLiked = dbAlbum?.isLike ?: false
         setLikeImage(isLiked)
 
         binding.albumLikeIv.setOnClickListener {
-            isLiked = !isLiked
-            album.isLike = isLiked
-            songDB.albumDao().update(album)
-            setLikeImage(isLiked)
+            if (getJwt().isNotEmpty()) {
+                isLiked = !isLiked
+                songDB.albumDao().updateIsLikeById(isLiked, album.id)
+                setLikeImage(isLiked)
+
+                if (isLiked) {
+                    Toast.makeText(context, "보관함에 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "보관함에서 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(context, "로그인이 필요한 서비스입니다.", Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    private fun getJwt(): String {
+        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+        return spf?.getString("jwt", "") ?: ""
     }
 
     private fun initSongRecyclerView(albumIdx: Int){
@@ -57,7 +75,7 @@ class AlbumFragment : Fragment() {
 
         val songRVAdapter = SongRVAdapter(songList)
         binding.albumSongListRv.adapter = songRVAdapter
-        binding.albumSongListRv.layoutManager = LinearLayoutManager(context)
+        binding.albumSongListRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         songRVAdapter.setMyItemClickListener(object : SongRVAdapter.MyItemClickListener {
             override fun onPlaySong(song: Song) {

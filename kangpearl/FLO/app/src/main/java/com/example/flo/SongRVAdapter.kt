@@ -26,7 +26,9 @@ class SongRVAdapter(private val songList: ArrayList<Song>) : RecyclerView.Adapte
         holder.bind(songList[position], position)
 
         holder.itemView.setOnClickListener {
-            mItemClickListener.onPlaySong(songList[position])
+            if (::mItemClickListener.isInitialized) {
+                mItemClickListener.onPlaySong(songList[position])
+            }
         }
     }
 

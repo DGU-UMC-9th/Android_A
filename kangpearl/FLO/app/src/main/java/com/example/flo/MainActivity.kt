@@ -1,4 +1,5 @@
 package com.example.flo
+
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +9,10 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivityMainBinding
+import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,6 +71,35 @@ class MainActivity : AppCompatActivity() {
 
         initBottomNavigation()
         initMiniPlayerControls()
+
+        testJwt()
+    }
+
+    private fun testJwt() {
+        val spf = getSharedPreferences("auth", MODE_PRIVATE)
+        val jwt = spf.getString("jwt", "") // 저장된 토큰 가져오기
+
+        if (jwt == null || jwt.isEmpty()) {
+            Log.d("TEST/JWT", "토큰이 없습니다.")
+            return
+        }
+
+        val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
+
+        authService.test("Bearer $jwt").enqueue(object : Callback<AuthResponse<TestResult>> {
+            override fun onResponse(call: Call<AuthResponse<TestResult>>, response: Response<AuthResponse<TestResult>>) {
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    val result = response.body()?.result?.result
+                    Log.d("TEST/SUCCESS", "토큰 테스트 성공: $result")
+                } else {
+                    Log.d("TEST/FAILURE", "토큰 테스트 실패: ${response.body()?.message}")
+                }
+            }
+
+            override fun onFailure(call: Call<AuthResponse<TestResult>>, t: Throwable) {
+                Log.d("TEST/FAILURE", t.message.toString())
+            }
+        })
     }
 
     override fun onResume() {

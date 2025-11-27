@@ -50,11 +50,13 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // [추가됨] RoomDB 및 Gson 의존성 추가
     implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx) // 코루틴 지원
-    ksp(libs.androidx.room.compiler)       // 어노테이션 프로세서 (ksp 사용)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
-    implementation(libs.gson)              // Gson 라이브러리
+    implementation(libs.gson)
     implementation("me.relex:circleindicator:2.1.6")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }

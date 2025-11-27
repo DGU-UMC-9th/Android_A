@@ -19,7 +19,9 @@ interface AlbumDao {
     @Query("SELECT * FROM AlbumTable WHERE isLike = :isLike")
     fun getLikedAlbums(isLike: Boolean): List<Album>
 
-    // 추가된 쿼리: ID로 앨범 하나 조회
     @Query("SELECT * FROM AlbumTable WHERE id = :id")
     fun getAlbum(id: Int): Album?
+
+    @Query("UPDATE AlbumTable SET isLike = :isLike WHERE id = :id")
+    fun updateIsLikeById(isLike: Boolean, id: Int)
 }

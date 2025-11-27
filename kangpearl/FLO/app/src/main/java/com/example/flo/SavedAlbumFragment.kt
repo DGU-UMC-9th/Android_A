@@ -20,8 +20,8 @@ class SavedAlbumFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         initRecyclerView()
     }
 
@@ -34,11 +34,7 @@ class SavedAlbumFragment : Fragment() {
 
         adapter.setMyItemClickListener(object : SavedAlbumRVAdapter.MyItemClickListener {
             override fun onRemoveAlbum(albumId: Int) {
-                val album = songDB.albumDao().getAlbum(albumId)
-                if (album != null) {
-                    album.isLike = false
-                    songDB.albumDao().update(album)
-                }
+                songDB.albumDao().updateIsLikeById(false, albumId)
             }
         })
     }

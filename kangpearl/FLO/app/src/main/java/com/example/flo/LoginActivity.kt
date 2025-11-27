@@ -2,9 +2,13 @@ package com.example.flo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivityLoginBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -28,23 +32,38 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPwdEt.text.toString()
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "이메일과 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val userDB = SongDatabase.getInstance(this)!!
-        val user = userDB.userDao().getUser(email, password)
+        val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
 
-        if (user != null) {
-            val spf = getSharedPreferences("auth", MODE_PRIVATE)
-            val editor = spf.edit()
-            editor.putInt("jwt", user.id)
-            editor.apply()
+        authService.login(User(email, password, "")).enqueue(object : Callback<AuthResponse<LoginResult>> {
+            override fun onResponse(call: Call<AuthResponse<LoginResult>>, response: Response<AuthResponse<LoginResult>>) {
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    val result = response.body()?.result!!
 
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        } else {
-            Toast.makeText(this, "회원 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
-        }
+                    val spf = getSharedPreferences("auth", MODE_PRIVATE)
+                    val editor = spf.edit()
+                    editor.putString("jwt", result.accessToken)
+                    editor.putInt("userId", result.memberId)
+                    editor.putString("name", result.name)
+                    editor.commit()
+
+                    runOnUiThread {
+                        Toast.makeText(this@LoginActivity, "로그인 성공!", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        finish()
+                    }
+                } else {
+                    val msg = response.body()?.message ?: "로그인 실패"
+                    Toast.makeText(this@LoginActivity, msg, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<AuthResponse<LoginResult>>, t: Throwable) {
+                Log.d("LOGIN/FAILURE", t.message.toString())
+            }
+        })
     }
 }

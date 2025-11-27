@@ -2,6 +2,7 @@ package com.example.flo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,21 +30,19 @@ class LockerFragment : Fragment() {
             tab.text = information[position]
         }.attach()
 
-        binding.lockerLoginTv.setOnClickListener {
-            startActivity(Intent(activity, LoginActivity::class.java))
-        }
-
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         initViews()
     }
 
     private fun initViews() {
         val jwt = getJwt()
-        if (jwt == 0) {
+        Log.d("LOCKER", "JWT Check: $jwt")
+
+        if (jwt == "") {
             binding.lockerLoginLayout.visibility = View.VISIBLE
             binding.lockerContentVp.visibility = View.GONE
             binding.lockerContentTb.visibility = View.GONE
@@ -64,16 +63,18 @@ class LockerFragment : Fragment() {
         }
     }
 
-    private fun getJwt(): Int {
+    private fun getJwt(): String {
         val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-        return spf?.getInt("jwt", 0) ?: 0
+        return spf?.getString("jwt", "") ?: ""
     }
 
     private fun logout() {
         val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
         val editor = spf?.edit()
         editor?.remove("jwt")
+        editor?.remove("userId")
         editor?.apply()
+
         initViews()
     }
 }
